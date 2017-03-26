@@ -15,3 +15,19 @@
       -ms-transform: scaleY(0.5)
       -o-transform: scaleY(0.5)
       transform: scaleY(0.5)
+
+.clearFix
+  display inline-block
+  :after
+    content '.'
+    width 0
+    height 0
+    visibility hidden
+    clear both
+
+starStyle($width,$height,$marginRight)
+  width $width
+  height $height
+  margin-right $marginRight
+  &:last-children
+    margin-right 0

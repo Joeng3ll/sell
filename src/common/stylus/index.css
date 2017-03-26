@@ -16,6 +16,16 @@
     transform: scaleY(0.5);
   }
 }
+.clearFix {
+  display: inline-block;
+}
+.clearFix :after {
+  content: '.';
+  width: 0;
+  height: 0;
+  visibility: hidden;
+  clear: both;
+}
 @font-face {
   font-family: 'sell-icon';
   src: url("../fonts/sell-icon.eot?6u6oal");
