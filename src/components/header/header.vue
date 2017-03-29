@@ -41,20 +41,42 @@
     <!--背景层结束-->
 
     <!--弹出层开始-->
-    <div class="popop" v-show="detailShow">
-      <div class="detail-wrapper clearFix">
-        <div class="detail-main">
-          <section class="detail-header">
-            {{seller.name}}
-          </section>
-          <star-component :size="24" :score="seller.score"></star-component>
+    <transition name="fade">
+      <div class="popop" v-show="detailShow" >
+        <div class="detail-wrapper clearFix">
+          <div class="detail-main">
+            <section class="detail-header">
+              {{seller.name}}
+            </section>
+            <star-component :size="48" :score="seller.score"></star-component>
+            <section class="little-header">
+              <div class="header-line"></div>
+              <div class="header-text">优惠信息</div>
+              <div class="header-line"></div>
+            </section>
+            <section class="detail-supports">
+              <div v-for="item in seller.supports" class="supports-item">
+                <span :class="classMap[item.type]" class="icon"></span>
+                <span class="text">{{item.description}}</span>
+              </div>
+            </section>
+            <section class="little-header">
+              <div class="header-line"></div>
+              <div class="header-text">商家公告</div>
+              <div class="header-line"></div>
+            </section>
+            <section class="seller-bulletin">
+              {{seller.bulletin}}
+            </section>
+          </div>
+        </div>
+
+        <div class="detail-close" @click="showDetail()">
+          <i class="icon-close"></i>
         </div>
       </div>
+    </transition>
 
-      <div class="detail-close" @click="showDetail()">
-        <i class="icon-close"></i>
-      </div>
-    </div>
     <!--弹出层结束-->
   </div>
 </template>
@@ -211,13 +233,17 @@
       height 100%
       z-index 100
       background rgba(7,17,27,0.8)
+      transition all 0.3s
+      backgrop-filter: blur(10px)
+      &.fade-enter,&.fade-leave-active
+        opacity 0
+        background rgba(7,17,27,0)
       .detail-wrapper
         width 100%
         min-height 100%
         .detail-main
           margin-top 64px
           padding 0 36px 64px 36px
-          font-size 12px
           text-align center
           .detail-header
             width 100%
@@ -225,6 +251,55 @@
             font-weight 350
             text-align center
             margin-bottom 16px
+          .little-header
+            display: flex
+            width 95%
+            margin 28px auto 24px auto
+            &>.header-line
+              flex 1
+              position relative
+              top 6px
+              height: 2px
+              background: rgba(255,255,255,0.2)
+            &>.header-text
+              font-size: 14px
+              padding 0 12px
+          .detail-supports
+            text-align left
+            padding-left 19px
+            &>.supports-item
+              margin-bottom 6px
+              font-size 0
+              &:last-child
+                margin-bottom 0
+              &>.icon
+                vertical-align top
+                display inline-block
+                width 16px
+                height 16px
+                margin-right 6px
+              .decrease-icon
+                bg-img('decrease_1', 12px, 12px)
+              .discount-icon
+                bg-img('discount_1', 12px, 12px)
+              .guarantee-icon
+                bg-img('guarantee_1', 12px, 12px)
+              .invoice-icon
+                bg-img('invoice_1', 12px, 12px)
+              .special-icon
+                bg-img('special_1', 12px, 12px)
+              .text
+                display inline-block
+                font-size 12px
+                font-weight 100
+                line-height 16px
+                height 16px
+          .seller-bulletin
+            padding 0 12px
+            font-size 12px
+            font-weight 100
+            line-height 24px
+            text-align left
       .detail-close
         width 32px
         height 32px

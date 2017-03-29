@@ -36,7 +36,6 @@
         res = res.data
         if (res.errno === ERROK) {
           this.seller = res.data
-          console.log(this.seller)
         }
       })
     },

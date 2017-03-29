@@ -21,7 +21,7 @@
         for (var i = 0; i < Math.floor(this.score); i++) {
           starArr.push(ON)
         }
-        if (Math.floor(this.score) % 2 !== 0) {
+        if (Math.floor(this.score * 2) % 2 !== 0) {
           starArr.push(HALF)
         }
         if (starArr.length < starNumber) {
@@ -62,11 +62,11 @@
     &.starType-48
       & > .star-item
         display inline-block
-        starStyle(30px, 28.5px, 9.375px)
+        starStyle(20px, 19px, 15px)
         &.on
-          bg-img('star48_on', 30px, 28.5px)
+          bg-img('star48_on', 20px, 19px)
         &.off
-          bg-img('star48_off', 30px, 28.5px)
+          bg-img('star48_off', 20px, 19px)
         &.half
-          bg-img('star48_half', 30px, 28.5px)
+          bg-img('star48_half', 20px, 19px)
 </style>
