@@ -13,10 +13,8 @@
           <p class="foods-price">¥<strong>{{item.price}}</strong><span class="foods-oldPrice" v-if="item.oldPrice!==''">¥<strong>{{item.oldPrice}}</strong></span>
           </p>
         </div>
-        <div class="foods-count">
-          <span @click="decreaseFoods(item)"><i class="icon-remove_circle_outline" v-if="item.checkNum>0"></i></span>
-          <p v-if="item.checkNum>0">{{item.checkNum}}</p>
-          <span @click="addFoods(item)"><i class="icon-add_circle"></i></span>
+        <div class="card-shop">
+          <card-shop :foodsItem="item"></card-shop>
         </div>
       </section>
     </article>
@@ -24,7 +22,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import Vue from 'vue'
+  import CardShop from 'components/cardShop/cardShop.vue'
   export default {
     data () {
       return {}
@@ -32,19 +30,10 @@
     props: ['goodsList'],
     computed: {},
     created() {
-      this.goodsList.foods.forEach(function (item, index) {
-        if (typeof item.checkNum === 'undefined') {
-          Vue.set(item, 'checkNum', 0)
-        }
-      })
     },
-    methods: {
-      addFoods: function (item) {
-        item.checkNum++
-      },
-      decreaseFoods: function (item) {
-        item.checkNum--
-      }
+    methods: {},
+    components: {
+      'cardShop': CardShop
     }
   }
 
@@ -102,27 +91,10 @@
               text-decoration line-through
               & > strong
                 font-weight 700
-        & > .foods-count
-          display flex
+        &>.card-shop
           position absolute
           bottom 12px
           right 0
-          height 24px
-          line-height 24px
-          & > p
-            font-size 12px
-            display inline-block
-            color rgb(147,153,159)
-            width 24px
-            height 24px
-            text-align center
-            line-height 24px
-          & > span
-            & > .icon-add_circle, & > .icon-remove_circle_outline
-              font-size 20px
-              line-height 24px
-              color: rgb(26, 161, 217)
-              vertical-align top
     & > p, image
       display inline-block
 </style>
