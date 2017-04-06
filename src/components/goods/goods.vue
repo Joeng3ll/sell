@@ -3,7 +3,8 @@
     <!--商品列表-->
     <aside class="goods-menu" ref="menuWrapper">
       <ul>
-        <li v-for="(item,index) in goods" class="menu-item" :class="{ 'menu-active' : currentIndex===index }">
+        <li v-for="(item,index) in goods" class="menu-item" :class="{ 'menu-active' : currentIndex===index }"
+            @click="selectMenu(index,$event)">
           <tab-component v-bind:tabItem="item" :tabSize="3"></tab-component>
         </li>
       </ul>
@@ -13,7 +14,7 @@
     <article class="goods-detail" ref="foodsDetail">
       <div>
         <section v-for="item in goods" class="goods-list goods-list-hook">
-          <goods-component :goodsList="item"></goods-component>
+          <goods-component :goodsList="item" @addFoods="addFoods" @decreaseFoods="decreaseFoods"></goods-component>
         </section>
       </div>
     </article>
@@ -34,11 +35,12 @@
         goods: [],
         heightArr: [],
         currentY: 0,
-        currentIndex: 0
+        foodsList: []
       }
     },
     props: ['seller'],
     created () {
+      console.log(this.Hub)
       this.$http.get('/api/goods').then(res => {
         res = res.data
         if (res.errno === ERROR_OK) {
@@ -54,17 +56,31 @@
       'tabComponent': tabComponent,
       'goodsComponent': GoodsItem
     },
-    computed: {},
+    computed: {
+      currentIndex: function () {
+        for (let i = 0; i < this.heightArr.length; i++) {
+          if (this.currentY < this.heightArr[0]) {
+            return 0
+          } else {
+            let h1 = this.heightArr[i]
+            let h2 = this.heightArr[i + 1]
+            if (this.currentY >= h1 && this.currentY < h2) {
+              return i + 1
+            }
+          }
+        }
+      }
+    },
     methods: {
       _initialScroll() {
+        var _this = this
         if (!this.menuScroll || !this.foodScroll) {
-          this.menuScroll = new BetterScroll(this.$refs.menuWrapper, {scrollY: true, probeType: 3})
-          this.foodScroll = new BetterScroll(this.$refs.foodsDetail, {scrollY: true, probeType: 3})
+          this.menuScroll = new BetterScroll(this.$refs.menuWrapper, {scrollY: true, probeType: 3, click: true})
+          this.foodScroll = new BetterScroll(this.$refs.foodsDetail, {scrollY: true, probeType: 3, click: true})
         }
         this.foodScroll.on('scroll', function (pos) {
-          this.currentY = Math.abs(Math.round(pos.y))
+          _this.currentY = Math.abs(Math.round(pos.y))
         })
-        console.log(this.menuScroll, this.foodScroll)
       },
       _calcuHeight() {
         let lis = this.$refs.foodsDetail.getElementsByClassName('goods-list-hook')
@@ -74,18 +90,46 @@
           preHeight += lis[i].offsetHeight
           this.heightArr.push(preHeight)
         }
-        this.switchMenu()
       },
-      switchMenu() {
-        for (var i = 0; i < this.heightArr.length; i++) {
-          let heigh1 = this.heightArr[i]
-          let height2 = this.heightArr[i + 1]
-          if (this.currentY > heigh1 && this.currentY < height2) {
-            this.currentIndex = i + 1
-          } else {
-            this.currentIndex = 0
+      selectMenu(index, event) {
+        let lis = this.$refs.foodsDetail.getElementsByClassName('goods-list-hook')
+        let el = lis[index]
+        if (!event._constructed || this.currentIndex === index) {
+          return
+        } else if (index === 0) {
+          this.foodScroll.scrollToElement(el, 1)
+        } else {
+          this.foodScroll.scrollToElement(el, 1)
+        }
+      },
+      addFoods(item) {
+        let no = this.foodsList.length
+        if (item.checkNum === 0) {
+          this.foodsList.push({
+            'name': item.name,
+            'price': item.price,
+            'count': item.checkNum + 1,
+            'no': no
+          })
+        } else {
+          for (let i = 0; i < this.foodsList.length; i++) {
+            if (this.foodsList[i].name === item.name) {
+              this.foodsList[i].count++
+            }
           }
         }
+        console.log(this.foodsList)
+      },
+      decreaseFoods(item) {
+        for (let i = 0; i < this.foodsList.length; i++) {
+          if (this.foodsList[i].name === item.name) {
+            this.foodsList[i].count--
+            if (this.foodsList[i].count === 0) {
+              this.foodsList.splice(this.foodsList[i].no, 1)
+            }
+          }
+        }
+        console.log(this.foodsList)
       }
     }
   }
@@ -97,8 +141,8 @@
   .goods-wrapper
     position absolute
     display flex
-    top: 172px
-    bottom: 58px
+    top: 174px
+    bottom: 52px
     width 100%
     overflow hidden
     .goods-menu
@@ -108,6 +152,12 @@
       ul
         .menu-active
           background rgb(255, 255, 255)
+          margin-top -1px
+          position relative
+          z-index 10
+          & > .tab-wrapper
+            font-weight 700
+            border-1px(rgba(255, 255, 255, 0))
         .menu-item
           height 54px
           color: rgb(0, 20, 20)

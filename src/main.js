@@ -15,12 +15,11 @@ const router = new VueRouter({
   mode: 'history',
   base: __dirname,
   routes: [
-      {path: '/goods', component: Goods},
-      {path: '/rating', component: Rating},
-      {path: '/seller', component: Seller}
+    {path: '/goods', component: Goods},
+    {path: '/rating', component: Rating},
+    {path: '/seller', component: Seller}
   ]
 })
-
 // 直接通过挂载到vue根实例上进行初始化
 new Vue({
   router,

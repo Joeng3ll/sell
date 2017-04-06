@@ -14,6 +14,7 @@
       </div>
     </div>
     <router-view></router-view>
+    <v-footer :seller="seller"></v-footer>
   </div>
 </template>
 
@@ -21,7 +22,7 @@
   import Header from './components/header/header.vue'
   import Vue from 'vue'
   import QS from 'axios'
-
+  import Footer from 'components/footer/footer.vue'
   const ERROK = 0
   Vue.prototype.$http = QS
   export default {
@@ -40,7 +41,8 @@
       })
     },
     components: {
-      'v-header': Header
+      'v-header': Header,
+      'v-footer': Footer
     }
 
   }
@@ -58,7 +60,6 @@
       .tab-item
         flex: 1
         text-align: center
-
         & > a
           display: block
           font-size: 14px

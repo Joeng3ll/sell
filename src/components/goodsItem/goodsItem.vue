@@ -14,7 +14,7 @@
           </p>
         </div>
         <div class="card-shop">
-          <card-shop :foodsItem="item"></card-shop>
+          <card-shop :foodsItem="item" @addFoods="addFoods" @decreaseFoods="decreaseFoods"></card-shop>
         </div>
       </section>
     </article>
@@ -31,7 +31,14 @@
     computed: {},
     created() {
     },
-    methods: {},
+    methods: {
+      addFoods: function (item) {
+        this.$emit('addFoods', item)
+      },
+      decreaseFoods: function (item) {
+        this.$emit('decreaseFoods', item)
+      }
+    },
     components: {
       'cardShop': CardShop
     }
@@ -91,7 +98,7 @@
               text-decoration line-through
               & > strong
                 font-weight 700
-        &>.card-shop
+        & > .card-shop
           position absolute
           bottom 12px
           right 0
