@@ -1,9 +1,11 @@
 <template>
   <div class="card-wrapper">
-    <span @click="decreaseFoods(foodsItem)"><i class="icon-remove_circle_outline"
-                                               v-if="foodsItem.checkNum>0"></i></span>
+    <!--<transition name="fade">-->
+      <span @click="decreaseFoods($event)" class="decrease" v-if="foodsItem.checkNum>0"><i class="icon-remove_circle_outline"
+                                                               ></i></span>
+    <!--</transition>-->
     <p v-if="foodsItem.checkNum>0">{{foodsItem.checkNum}}</p>
-    <span @click="addFoods(foodsItem)"><i class="icon-add_circle"></i></span>
+    <span @click="addFoods($event)"><i class="icon-add_circle"></i></span>
   </div>
 </template>
 
@@ -22,11 +24,17 @@
       }
     },
     methods: {
-      addFoods: function () {
+      addFoods: function ($event) {
+        if (!$event._constructed) {
+          return
+        }
         this.$emit('addFoods', this.foodsItem)
         this.foodsItem.checkNum++
       },
-      decreaseFoods: function () {
+      decreaseFoods: function ($event) {
+        if (!$event._constructed) {
+          return
+        }
         this.$emit('decreaseFoods', this.foodsItem)
         this.foodsItem.checkNum--
       }
@@ -40,6 +48,8 @@
     display flex
     height 24px
     line-height 24px
+    &>.decrease
+      transition all 1s
     & > p
       font-size 12px
       display inline-block

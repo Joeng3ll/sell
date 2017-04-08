@@ -27,6 +27,7 @@
   import Vue from 'vue'
   import GoodsItem from 'components/goodsItem/goodsItem.vue'
   import BetterScroll from 'better-scroll'
+  import Store from '../../vuex/store'
   Vue.prototype.$http = Qs
   const ERROR_OK = 0
   export default {
@@ -40,7 +41,6 @@
     },
     props: ['seller'],
     created () {
-      console.log(this.Hub)
       this.$http.get('/api/goods').then(res => {
         res = res.data
         if (res.errno === ERROR_OK) {
@@ -103,33 +103,10 @@
         }
       },
       addFoods(item) {
-        let no = this.foodsList.length
-        if (item.checkNum === 0) {
-          this.foodsList.push({
-            'name': item.name,
-            'price': item.price,
-            'count': item.checkNum + 1,
-            'no': no
-          })
-        } else {
-          for (let i = 0; i < this.foodsList.length; i++) {
-            if (this.foodsList[i].name === item.name) {
-              this.foodsList[i].count++
-            }
-          }
-        }
-        console.log(this.foodsList)
+        Store.dispatch('addFoodsList', item)
       },
       decreaseFoods(item) {
-        for (let i = 0; i < this.foodsList.length; i++) {
-          if (this.foodsList[i].name === item.name) {
-            this.foodsList[i].count--
-            if (this.foodsList[i].count === 0) {
-              this.foodsList.splice(this.foodsList[i].no, 1)
-            }
-          }
-        }
-        console.log(this.foodsList)
+        Store.dispatch('desFoodsList', item)
       }
     }
   }

@@ -2,6 +2,7 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import Vuex from 'vuex'
 import VueRouter from 'vue-router'
 import Goods from 'components/goods/goods.vue'
 import Seller from 'components/seller/seller.vue'
@@ -9,8 +10,8 @@ import Rating from 'components/rating/rating.vue'
 import 'common/stylus/index.styl'
 
 Vue.use(VueRouter)
+Vue.use(Vuex)
 Vue.config.productionTip = false
-
 const router = new VueRouter({
   mode: 'history',
   base: __dirname,

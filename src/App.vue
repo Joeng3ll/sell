@@ -43,8 +43,8 @@
     components: {
       'v-header': Header,
       'v-footer': Footer
-    }
-
+    },
+    methods: {}
   }
 </script>
 

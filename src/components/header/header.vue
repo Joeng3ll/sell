@@ -233,7 +233,7 @@
       height 100%
       z-index 100
       background rgba(7,17,27,0.8)
-      transition all 0.3s
+      transition all 1s
       backgrop-filter: blur(10px)
       &.fade-enter,&.fade-leave-active
         opacity 0
