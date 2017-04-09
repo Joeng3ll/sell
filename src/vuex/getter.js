@@ -1,8 +1,11 @@
 /**
  * Created by joeng on 2017/4/7.
  */
-export const getFoodsList = (state) => {
-  console.log(state)
-  return state.foodsList
+export default {
+  getFoodsList: (state) => {
+    return state.foodsList
+  },
+  getBallList: (state) => {
+    return state.ballList
+  }
 }
-export const a = 0

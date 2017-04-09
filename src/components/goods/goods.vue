@@ -104,6 +104,7 @@
       },
       addFoods(item) {
         Store.dispatch('addFoodsList', item)
+        Store.dispatch('dropBalls')
       },
       decreaseFoods(item) {
         Store.dispatch('desFoodsList', item)
@@ -132,6 +133,7 @@
           margin-top -1px
           position relative
           z-index 10
+          border-left: 2px solid red;
           & > .tab-wrapper
             font-weight 700
             border-1px(rgba(255, 255, 255, 0))

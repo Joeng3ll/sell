@@ -7,6 +7,13 @@
           <i class="icon-shopping_cart"></i>
         </div>
         <span class="foods-num" v-if="foodsNum>0">{{foodsNum}}</span>
+        <div class="balls-wrapper">
+          <section class="balls" v-for="ball in ballList">
+            <transition name="drop" v-on:before-enter="beforeDrop()">
+              <span class="inner " v-if="ball.show"></span>
+            </transition>
+          </section>
+        </div>
       </section>
       <!--商品总价-->
       <section class="total-price" :class="{'reach-price': totalPrice>0}">
@@ -18,7 +25,8 @@
       </section>
     </div>
     <!--最低起送费-->
-    <div class="min-price" :class="{'no-select': totalPrice < seller.minPrice, 'select':totalPrice >= seller.minPrice }">
+    <div class="min-price"
+         :class="{'no-select': totalPrice < seller.minPrice, 'select':totalPrice >= seller.minPrice }">
       <p>{{startPrice}}</p>
     </div>
   </div>
@@ -29,9 +37,18 @@
   export default {
     data() {
       return {
-        foodsList: Store.getters.getFoodsList,
-        minPrice: this.seller.minPrice
+        foodsList: [],
+        minPrice: 0,
+        ballList: []
       }
+    },
+    created () {
+      let _this = this
+      this.$nextTick(function () {
+        _this.minPrice = _this.seller.minPrice
+        _this.foodsList = Store.getters.getFoodsList
+        _this.ballList = Store.getters.getBallList
+      })
     },
     computed: {
       foodsNum: function () {
@@ -56,7 +73,12 @@
         return text
       }
     },
-    props: ['seller']
+    props: ['seller'],
+    methods: {
+      beforeDrop: function (el) {
+        console.log(el + 'el')
+      }
+    }
   }
 
 </script>
@@ -104,6 +126,7 @@
             font-size 24px
             line-height 24px
             color rgb(128, 133, 138)
+
         & > .foods-num
           display inline-block
           position absolute
@@ -115,6 +138,20 @@
           font-size 12px
           line-height 12px
           border-radius 10px
+        & > .balls-wrapper
+          position fixed
+          left 32px
+          bottom 22px
+          line-height 0
+          & > .balls
+            display inline-block
+            transition all 0.3s
+            & > .inner
+              display inline-block
+              width 16px
+              height 16px
+              background rgb(0, 180, 180)
+              transition all 0.3s
       & > .total-price
         display inline-block
         height 100%

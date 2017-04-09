@@ -1,10 +1,10 @@
 <template>
   <div class="card-wrapper">
-    <!--<transition name="fade">-->
-      <span @click="decreaseFoods($event)" class="decrease" v-if="foodsItem.checkNum>0"><i class="icon-remove_circle_outline"
-                                                               ></i></span>
-    <!--</transition>-->
-    <p v-if="foodsItem.checkNum>0">{{foodsItem.checkNum}}</p>
+    <transition name="fade">
+      <span @click="decreaseFoods($event)" class="decrease" v-if="foodsItem.checkNum>0"><i class="icon-remove_circle_outline inner"
+      ></i></span>
+    </transition>
+      <p v-if="foodsItem.checkNum>0">{{foodsItem.checkNum}}</p>
     <span @click="addFoods($event)"><i class="icon-add_circle"></i></span>
   </div>
 </template>
@@ -49,7 +49,19 @@
     height 24px
     line-height 24px
     &>.decrease
-      transition all 1s
+      transition all .3s
+      transform translate3D(0,0,0)
+      &>.inner
+        display inline-block
+        width 20px
+        height 20px
+        transition all .3s
+        transform rotate(0)
+      &.fade-enter,&.fade-leave-active
+        opacity 0
+        transform translate3D(12px,0,0)
+        &>.inner
+         transform rotate(180deg)
     & > p
       font-size 12px
       display inline-block
