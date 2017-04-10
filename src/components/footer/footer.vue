@@ -3,14 +3,20 @@
     <div class="footer-left">
       <!--购物车-->
       <section class="shop-car">
-        <div class="icon-bg" v-bind:class="{ 'car-select': foodsNum>0,'car-not-select': foodsNum===0  }">
+        <div class="icon-bg"
+             v-bind:class="{ 'car-select': foodsNum>0,'car-not-select': foodsNum===0  }">
           <i class="icon-shopping_cart"></i>
         </div>
         <span class="foods-num" v-if="foodsNum>0">{{foodsNum}}</span>
         <div class="balls-wrapper">
           <section class="balls" v-for="ball in ballList">
-            <transition name="drop" v-on:before-enter="beforeDrop()">
-              <span class="inner " v-if="ball.show"></span>
+            <transition name="drop"
+                        v-on:before-enter="beforeDrop"
+                        v-on:enter="enterDrop"
+                        v-on:after-enter="afterEnter">
+              <div class="ball" v-show="ball.show">
+                <span class="inner innerHook"></span>
+              </div>
             </transition>
           </section>
         </div>
@@ -28,6 +34,19 @@
     <div class="min-price"
          :class="{'no-select': totalPrice < seller.minPrice, 'select':totalPrice >= seller.minPrice }">
       <p>{{startPrice}}</p>
+    </div>
+    <div class="car-detail">
+      <aside class="car-box clearFix">
+        <header class="car-header">
+          <p>购物车</p>
+          <span>清空</span>
+        </header>
+        <div class="car-content">
+          <section class="car-item">
+
+          </section>
+        </div>
+      </aside>
     </div>
   </div>
 </template>
@@ -75,8 +94,32 @@
     },
     props: ['seller'],
     methods: {
-      beforeDrop: function (el) {
-        console.log(Store.getters.getBallPosition.x)
+      beforeDrop: function (ball) {
+        let x = Store.getters.getBallPosition.x - 32
+        let y = -(window.innerHeight - Store.getters.getBallPosition.y - 22)
+        ball.style.display = ''
+        ball.style.webkitTransform = `translate3d(0,${y}px,0)`
+        ball.style.transform = `translate3d(0,${y}px,0)`
+        ball.getElementsByClassName('innerHook')[0].style.webkitTransform = `translate3d(${x}px,0,0)`
+        ball.getElementsByClassName('innerHook')[0].style.transform = `translate3d(${x}px,0,0)`
+      },
+      enterDrop: function (ball, done) {
+        console.log('enterDrop')
+        /* eslint-disable no-unused-vars */
+        let height = ball.offsetHeight
+        this.$nextTick(function () {
+          ball.style.webkitTransform = 'translate3d(0,0,0)'
+          ball.style.transform = 'translate3d(0,0,0)'
+          ball.getElementsByClassName('innerHook')[0].style.webkitTransform = 'translate3d(0,0,0)'
+          ball.getElementsByClassName('innerHook')[0].style.transform = 'translate3d(0,0,0)'
+        })
+      },
+      afterEnter: function (ball) {
+        console.log('afterDrop')
+        let dropBalls = Store.getters.getDropBallList
+        let dropBall = dropBalls.shift
+        dropBall.show = false
+        ball.style.display = 'none'
       }
     }
   }
@@ -85,6 +128,7 @@
 
 <style lang="stylus" rel="stylesheet/stylus">
   @import "../../common/stylus/mixin.styl"
+  @import "../../common/stylus/base.styl"
   .footer
     position fixed
     display flex
@@ -95,6 +139,7 @@
     background #141d27
     & > .footer-left
       position relative
+      z-index 100
       flex 1
       font-size 0
       & > .shop-car
@@ -146,12 +191,16 @@
           & > .balls
             display inline-block
             transition all 0.3s
-            & > .inner
+            & > .ball
               display inline-block
-              width 16px
-              height 16px
-              background rgb(0, 180, 180)
-              transition all 0.3s
+              transition all 0.3s cubic-bezier(.62, .01, .66, .47)
+              & > .inner
+                display inline-block
+                width 16px
+                height 16px
+                background #1aa1d9
+                border-radius 50%
+                transition all 0.3s linear
       & > .total-price
         display inline-block
         height 100%
@@ -171,6 +220,8 @@
         font-size 16px
         color: rgba(255, 255, 255, 0.4)
     & > .min-price
+      position relative
+      z-index 100
       flex 0 0 105px
       width 105px
       font-size 12px
@@ -182,4 +233,18 @@
       &.select
         background #00b43c
         color #fff
+    & > .car-detail
+      width 100%
+      height 100%
+      position fixed
+      top 0
+      left 0
+      background rgba(7,17,27,0.6)
+      &>.car-box
+        width 100%
+        position absolute
+        bottom 48px
+        left 0
+        height 281.5px
+        background rgb(255,255,255)
 </style>

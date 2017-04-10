@@ -10,5 +10,8 @@ export default {
   },
   getBallPosition: (state) => {
     return state.ballPosition
+  },
+  getDropBallList: (state) => {
+    return state.dropBallList
   }
 }

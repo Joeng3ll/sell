@@ -20,7 +20,8 @@ const ballPosition = {
 const state = {
   foodsList: [],
   ballList: ballList,
-  ballPosition: ballPosition
+  ballPosition: ballPosition,
+  dropBallList: []
 }
 export default new Vuex.Store({
   state: state,

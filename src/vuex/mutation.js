@@ -30,16 +30,14 @@ export default {
     }
   },
   dropBalls: (state) => {
-    let unshowBalls = []
     let ballslen = state.ballList.length
     for (let i = 0; i < ballslen; i++) {
       if (state.ballList[i].show === false) {
-        unshowBalls.push(state.ballList[i])
+        state.ballList[i].show = true
+        state.dropBallList.push(state.ballList[i])
+        return
       }
     }
-    unshowBalls[0].show = true
-    unshowBalls.shift()
-    // console.log(state.ballPosition)
   },
   changeBallPosition: (state, el) => {
     state.ballPosition.x = el.getBoundingClientRect().left

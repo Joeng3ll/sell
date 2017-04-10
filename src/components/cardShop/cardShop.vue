@@ -6,7 +6,7 @@
       ></i></span>
     </transition>
     <p v-if="foodsItem.checkNum>0">{{foodsItem.checkNum}}</p>
-    <span @click="addFoods($event)" ref="addHook"><i class="icon-add_circle"></i></span>
+    <span @click="addFoods($event)" ><i class="icon-add_circle"></i></span>
   </div>
 </template>
 
@@ -30,10 +30,12 @@
         if (!$event._constructed) {
           return
         }
-        let addHook = this.$refs.addHook
-        Store.dispatch('addFoodsList', this.foodsItem)
+        let addHook = $event.target
         Store.dispatch('changeBallPosition', addHook)
-        Store.dispatch('dropBalls')
+        Store.dispatch('addFoodsList', this.foodsItem)
+        this.$nextTick(function () {
+          Store.dispatch('dropBalls')
+        })
         this.foodsItem.checkNum++
       },
       decreaseFoods: function ($event) {
@@ -54,13 +56,13 @@
     height 24px
     line-height 24px
     & > .decrease
-      transition all .3s
+      transition all .5s
       transform translate3D(0, 0, 0)
       & > .inner
         display inline-block
         width 20px
         height 20px
-        transition all .3s
+        transition all .5s
         transform rotate(0)
       &.fade-enter, &.fade-leave-active
         opacity 0
