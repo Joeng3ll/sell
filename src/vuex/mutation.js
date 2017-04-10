@@ -33,13 +33,16 @@ export default {
     let unshowBalls = []
     let ballslen = state.ballList.length
     for (let i = 0; i < ballslen; i++) {
-      console.log(i)
       if (state.ballList[i].show === false) {
         unshowBalls.push(state.ballList[i])
       }
     }
     unshowBalls[0].show = true
     unshowBalls.shift()
-    console.log(state.ballList)
+    // console.log(state.ballPosition)
+  },
+  changeBallPosition: (state, el) => {
+    state.ballPosition.x = el.getBoundingClientRect().left
+    state.ballPosition.y = el.getBoundingClientRect().top
   }
 }

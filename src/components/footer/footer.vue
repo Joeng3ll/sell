@@ -76,7 +76,7 @@
     props: ['seller'],
     methods: {
       beforeDrop: function (el) {
-        console.log(el + 'el')
+        console.log(Store.getters.getBallPosition.x)
       }
     }
   }

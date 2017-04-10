@@ -8,8 +8,10 @@ export default {
   desFoodsList: (context, item) => {
     context.commit('desFoodsList', item)
   },
-  dropBalls: (context) => {
-    context.commit('dropBalls')
+  dropBalls: (context, el) => {
+    context.commit('dropBalls', el)
+  },
+  changeBallPosition: (context, el) => {
+    context.commit('changeBallPosition', el)
   }
-
 }

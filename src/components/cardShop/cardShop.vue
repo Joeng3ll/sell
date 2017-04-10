@@ -1,16 +1,18 @@
 <template>
   <div class="card-wrapper">
     <transition name="fade">
-      <span @click="decreaseFoods($event)" class="decrease" v-if="foodsItem.checkNum>0"><i class="icon-remove_circle_outline inner"
+      <span @click="decreaseFoods($event)" class="decrease" v-if="foodsItem.checkNum>0"><i
+        class="icon-remove_circle_outline inner"
       ></i></span>
     </transition>
-      <p v-if="foodsItem.checkNum>0">{{foodsItem.checkNum}}</p>
-    <span @click="addFoods($event)"><i class="icon-add_circle"></i></span>
+    <p v-if="foodsItem.checkNum>0">{{foodsItem.checkNum}}</p>
+    <span @click="addFoods($event)" ref="addHook"><i class="icon-add_circle"></i></span>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
   import Vue from 'vue'
+  import Store from '../../vuex/store'
   export default {
     data () {
       return {
@@ -28,14 +30,17 @@
         if (!$event._constructed) {
           return
         }
-        this.$emit('addFoods', this.foodsItem)
+        let addHook = this.$refs.addHook
+        Store.dispatch('addFoodsList', this.foodsItem)
+        Store.dispatch('changeBallPosition', addHook)
+        Store.dispatch('dropBalls')
         this.foodsItem.checkNum++
       },
       decreaseFoods: function ($event) {
         if (!$event._constructed) {
           return
         }
-        this.$emit('decreaseFoods', this.foodsItem)
+        Store.dispatch('desFoodsList', this.foodsItem)
         this.foodsItem.checkNum--
       }
     }
@@ -48,20 +53,20 @@
     display flex
     height 24px
     line-height 24px
-    &>.decrease
+    & > .decrease
       transition all .3s
-      transform translate3D(0,0,0)
-      &>.inner
+      transform translate3D(0, 0, 0)
+      & > .inner
         display inline-block
         width 20px
         height 20px
         transition all .3s
         transform rotate(0)
-      &.fade-enter,&.fade-leave-active
+      &.fade-enter, &.fade-leave-active
         opacity 0
-        transform translate3D(12px,0,0)
-        &>.inner
-         transform rotate(180deg)
+        transform translate3D(12px, 0, 0)
+        & > .inner
+          transform rotate(180deg)
     & > p
       font-size 12px
       display inline-block

@@ -7,5 +7,8 @@ export default {
   },
   getBallList: (state) => {
     return state.ballList
+  },
+  getBallPosition: (state) => {
+    return state.ballPosition
   }
 }
