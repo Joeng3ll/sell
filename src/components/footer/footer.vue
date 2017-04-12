@@ -38,23 +38,25 @@
       <p>{{startPrice}}</p>
     </div>
     <div class="car-detail" v-show="detailShow" v-if="hasfoods" ref="carDetail">
-      <aside class="car-box">
-        <header class="car-header">
+      <transition name="slide">
+        <aside class="car-box" v-show="detailShow">
+          <header class="car-header">
           <p class="header-text">购物车</p>
           <span class="clear-car" @click="clearShopCar">清空</span>
         </header>
-        <div class="car-content " ref="foodScroll">
+          <div class="car-content " ref="foodScroll">
           <div class="scroll-box">
             <section class="car-item" v-for="food in foodsList">
               <p class="foods-name">{{food.name}}</p>
               <div class="foods-more">
                 <p class="foods-price"><span class="¥">¥</span>{{food.price}}</p>
-                <card-shop :foodsItem="food"></card-shop>
+                <card-shop :foodsItem="food" @decreaseFoods="decreaseFoods"></card-shop>
               </div>
             </section>
           </div>
         </div>
       </aside>
+      </transition>
     </div>
   </div>
 </template>
@@ -75,9 +77,7 @@
       let _this = this
       this.$nextTick(function () {
         _this.minPrice = _this.seller.minPrice
-//        _this.foodsList = Store.getters.getFoodsList
         _this.ballList = Store.getters.getBallList
-        _this._initialBetterScroll()
       })
     },
     computed: {
@@ -106,11 +106,11 @@
         return text
       },
       hasfoods: function () {
-        let hasFoods = false
+        let ishasFoods = false
         if (this.foodsList.length > 0) {
-          hasFoods = true
+          ishasFoods = true
         }
-        return hasFoods
+        return ishasFoods
       }
     },
     props: ['seller'],
@@ -150,15 +150,19 @@
         if (this.$refs.carDetail === undefined) {
           return
         }
+        this._initialBetterScroll()
         this.detailShow = !this.detailShow
       },
       _initialBetterScroll: function () {
-        if (!this.$refs.foodScroll) {
-          return
-        } else if (this.foodScroll === undefined) {
-          this.foodScroll = new BetterScroll(this.$refs.foodScroll, {scrollY: true, click: true})
+        if (this.foodScroll === undefined) {
+          this.foodScroll = new BetterScroll(this.$refs.foodScroll, {scrollY: true, probeType: 3, click: true})
         }
-        console.log(this.foodScroll + '------')
+        console.log(this.foodScroll)
+      },
+      decreaseFoods: function () {
+        if (this.foodsList.length === 0) {
+          this.detailShow = false
+        }
       }
     },
     components: {
@@ -187,6 +191,7 @@
       & > .shop-car
         display inline-block
         position: relative
+        z-index 100
         left 12px
         bottom: 8px
         width 58px
@@ -196,6 +201,8 @@
         border-radius 100%
         background #141d27
         & > .icon-bg
+          position relative
+          z-index 100
           width 44px
           height 44px
           display flex
@@ -217,6 +224,7 @@
         & > .foods-num
           display inline-block
           position absolute
+          z-index 101
           padding 3px 10px
           top -1px
           right -4px
@@ -244,6 +252,8 @@
                 border-radius 50%
                 transition all 0.3s linear
       & > .total-price
+        position relative
+        z-index 100
         display inline-block
         height 100%
         vertical-align top
@@ -255,6 +265,8 @@
         &.reach-price
           color #fff
       & > .deliver-price
+        position relative
+        z-index 100
         display inline-block
         vertical-align top
         margin-left 12px
@@ -276,20 +288,19 @@
         background #00b43c
         color #fff
     & > .car-detail
-      width 100%
-      height 100%
-      position fixed
-      top 0
-      left 0
-      background rgba(7, 17, 27, 0.6)
       & > .car-box
         width 100%
         position absolute
         bottom 48px
         left 0
-        height 281.5px
+        max-height 281.5px
         background rgb(255, 255, 255)
         font-size 0
+        overflow hidden
+        transition all 0.3s
+        transform translate3d(0,0,0)
+        &.slide-enter,&.slide-leave
+          transform translate3d(0,100%,0)
         p
           display inline-block
         & > .car-header
@@ -308,6 +319,7 @@
             font-size 12px
             color rgb(0, 160, 220)
         & > .car-content
+          overflow hidden
           & > .scroll-box
             padding 0 18px
             & > .car-item

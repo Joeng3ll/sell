@@ -42,6 +42,7 @@
           return
         }
         Store.dispatch('desFoodsList', this.foodsItem)
+        this.$emit('decreaseFoods')
       }
     }
   }
