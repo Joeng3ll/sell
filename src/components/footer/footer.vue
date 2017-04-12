@@ -2,9 +2,11 @@
   <div class="footer">
     <div class="footer-left">
       <!--购物车-->
-      <section class="shop-car">
+      <section class="shop-car"
+               @click="showDetail()">
         <div class="icon-bg"
-             v-bind:class="{ 'car-select': foodsNum>0,'car-not-select': foodsNum===0  }">
+             v-bind:class="{ 'car-select': foodsNum>0,'car-not-select': foodsNum===0  }"
+        >
           <i class="icon-shopping_cart"></i>
         </div>
         <span class="foods-num" v-if="foodsNum>0">{{foodsNum}}</span>
@@ -35,16 +37,22 @@
          :class="{'no-select': totalPrice < seller.minPrice, 'select':totalPrice >= seller.minPrice }">
       <p>{{startPrice}}</p>
     </div>
-    <div class="car-detail">
-      <aside class="car-box clearFix">
+    <div class="car-detail" v-show="detailShow" v-if="hasfoods" ref="carDetail">
+      <aside class="car-box">
         <header class="car-header">
-          <p>购物车</p>
-          <span>清空</span>
+          <p class="header-text">购物车</p>
+          <span class="clear-car" @click="clearShopCar">清空</span>
         </header>
         <div class="car-content">
-          <section class="car-item">
-
-          </section>
+          <div class="scroll-box">
+            <section class="car-item" v-for="food in foodsList">
+              <p class="foods-name">{{food.name}}</p>
+              <div class="foods-more">
+                <p class="foods-price"><span class="¥">¥</span>{{food.price}}</p>
+                <card-shop :foodsItem="food"></card-shop>
+              </div>
+            </section>
+          </div>
         </div>
       </aside>
     </div>
@@ -53,12 +61,14 @@
 
 <script type="text/ecmascript-6">
   import Store from '../../vuex/store'
+  import cardShop from 'components/cardShop/cardShop'
   export default {
     data() {
       return {
         foodsList: [],
         minPrice: 0,
-        ballList: []
+        ballList: [],
+        detailShow: false
       }
     },
     created () {
@@ -76,7 +86,7 @@
       totalPrice: function () {
         let amount = 0
         Store.getters.getFoodsList.forEach(function (value, index, arr) {
-          amount += value.price * value.count
+          amount += value.price * value.checkNum
         })
         return amount
       },
@@ -90,6 +100,13 @@
           text = '去结算'
         }
         return text
+      },
+      hasfoods: function () {
+        let hasFoods = false
+        if (this.foodsList.length > 0) {
+          hasFoods = true
+        }
+        return hasFoods
       }
     },
     props: ['seller'],
@@ -120,7 +137,19 @@
         let dropBall = dropBalls.shift
         dropBall.show = false
         ball.style.display = 'none'
+      },
+      clearShopCar: () => {
+        Store.dispatch('clearShopCar')
+      },
+      showDetail: function () {
+        if (this.$refs.carDetail === 'undefined') {
+          return
+        }
+        this.detailShow = !this.detailShow
       }
+    },
+    components: {
+      'cardShop': cardShop
     }
   }
 
@@ -239,12 +268,49 @@
       position fixed
       top 0
       left 0
-      background rgba(7,17,27,0.6)
-      &>.car-box
+      background rgba(7, 17, 27, 0.6)
+      & > .car-box
         width 100%
         position absolute
         bottom 48px
         left 0
         height 281.5px
-        background rgb(255,255,255)
+        background rgb(255, 255, 255)
+        font-size 0
+        p
+          display inline-block
+        & > .car-header
+          height 40px
+          display flex
+          justify-content space-between
+          line-height 40px
+          background #f3f5f7
+          padding 0 18px
+          border-1px(rgba(7, 17, 27, 0.1))
+          & > .header-text
+            font-size 14px
+            color rbg(7, 17, 27)
+            font-weight 200
+          & > .clear-car
+            font-size 12px
+            color rgb(0, 160, 220)
+        & > .car-content
+          & > .scroll-box
+            padding 0 18px
+            & > .car-item
+              display flex
+              justify-content space-between
+              height 48px
+              line-height 48px
+              border-1px(rgba(7, 17, 27, 0.1))
+              & > .foods-name
+                font-size 14px
+                color rgb(7, 17, 27)
+              & > .foods-more
+                & > .foods-price
+                  & > .¥
+                    font-size 10px
+                  font-size 14px
+                  color rgb(240, 20, 20)
+                  margin-right 12px
 </style>

@@ -36,14 +36,13 @@
         this.$nextTick(function () {
           Store.dispatch('dropBalls')
         })
-        this.foodsItem.checkNum++
+        console.log(this.foodsItem)
       },
       decreaseFoods: function ($event) {
         if (!$event._constructed) {
           return
         }
         Store.dispatch('desFoodsList', this.foodsItem)
-        this.foodsItem.checkNum--
       }
     }
   }
@@ -52,10 +51,12 @@
 
 <style lang="stylus" rel="stylesheet/stylus">
   .card-wrapper
-    display flex
+    display inline-block
     height 24px
     line-height 24px
+    font-size 0
     & > .decrease
+      vertical-align top
       transition all .5s
       transform translate3D(0, 0, 0)
       & > .inner
@@ -78,10 +79,12 @@
       text-align center
       line-height 24px
     & > span
-      display block
+      display inline-block
+      line-height 24px
+      font-size 0
+      vertical-align top
       & > .icon-add_circle, & > .icon-remove_circle_outline
         font-size 20px
         line-height 24px
         color: rgb(26, 161, 217)
-        vertical-align top
 </style>

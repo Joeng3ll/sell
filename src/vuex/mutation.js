@@ -3,31 +3,35 @@
  */
 export default {
   addFoodsList: (state, item) => {
-    let no = state.foodsList.length
+    // let no = state.foodsList.length
     if (item.checkNum === 0) {
-      state.foodsList.push({
-        'name': item.name,
-        'price': item.price,
-        'count': item.checkNum + 1,
-        'no': no
-      })
+      item.checkNum += 1
+      state.foodsList.push(item)
     } else {
-      for (let i = 0; i < state.foodsList.length; i++) {
-        if (state.foodsList[i].name === item.name) {
-          state.foodsList[i].count++
-        }
-      }
+      item.checkNum++
     }
   },
   desFoodsList: (state, item) => {
-    for (let i = 0; i < state.foodsList.length; i++) {
-      if (state.foodsList[i].name === item.name) {
-        state.foodsList[i].count--
-        if (state.foodsList[i].count === 0) {
-          state.foodsList.splice(state.foodsList[i].no, 1)
+    function removeByValue(arr, item) {
+      for (let i = 0; i < arr.length; i++) {
+        if (arr[i] === item) {
+          arr.splice(i, 1)
+          break
         }
       }
     }
+
+    if (item.checkNum === 1) {
+      removeByValue(state.foodsList, item)
+    }
+    item.checkNum--
+  },
+  clearFoodsList: (state) => {
+    let arr = state.foodsList
+    arr.forEach((item) => {
+      item.checkNum = 0
+    })
+    state.foodsList = []
   },
   dropBalls: (state) => {
     let ballslen = state.ballList.length

@@ -13,5 +13,8 @@ export default {
   },
   changeBallPosition: (context, el) => {
     context.commit('changeBallPosition', el)
+  },
+  clearShopCar: (context) => {
+    context.commit('clearFoodsList')
   }
 }

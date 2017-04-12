@@ -27,6 +27,7 @@
   import Vue from 'vue'
   import GoodsItem from 'components/goodsItem/goodsItem.vue'
   import BetterScroll from 'better-scroll'
+  import Store from '../../vuex/store'
   Vue.prototype.$http = Qs
   const ERROR_OK = 0
   export default {
@@ -49,6 +50,9 @@
             this._calcuHeight()
           })
         }
+      })
+      this.$nextTick(() => {
+        this.foodsList = Store.getters.getFoodsList
       })
     },
     components: {
