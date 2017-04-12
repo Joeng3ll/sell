@@ -36,7 +36,6 @@
         this.$nextTick(function () {
           Store.dispatch('dropBalls')
         })
-        console.log(this.foodsItem)
       },
       decreaseFoods: function ($event) {
         if (!$event._constructed) {

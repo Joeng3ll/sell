@@ -43,7 +43,7 @@
           <p class="header-text">购物车</p>
           <span class="clear-car" @click="clearShopCar">清空</span>
         </header>
-        <div class="car-content">
+        <div class="car-content " ref="foodScroll">
           <div class="scroll-box">
             <section class="car-item" v-for="food in foodsList">
               <p class="foods-name">{{food.name}}</p>
@@ -62,10 +62,10 @@
 <script type="text/ecmascript-6">
   import Store from '../../vuex/store'
   import cardShop from 'components/cardShop/cardShop'
+  import BetterScroll from 'better-scroll'
   export default {
     data() {
       return {
-        foodsList: [],
         minPrice: 0,
         ballList: [],
         detailShow: false
@@ -75,11 +75,15 @@
       let _this = this
       this.$nextTick(function () {
         _this.minPrice = _this.seller.minPrice
-        _this.foodsList = Store.getters.getFoodsList
+//        _this.foodsList = Store.getters.getFoodsList
         _this.ballList = Store.getters.getBallList
+        _this._initialBetterScroll()
       })
     },
     computed: {
+      foodsList: function () {
+        return Store.getters.getFoodsList
+      },
       foodsNum: function () {
         return Store.getters.getFoodsList.length
       },
@@ -138,14 +142,23 @@
         dropBall.show = false
         ball.style.display = 'none'
       },
-      clearShopCar: () => {
+      clearShopCar: function () {
+        this.detailShow = false
         Store.dispatch('clearShopCar')
       },
       showDetail: function () {
-        if (this.$refs.carDetail === 'undefined') {
+        if (this.$refs.carDetail === undefined) {
           return
         }
         this.detailShow = !this.detailShow
+      },
+      _initialBetterScroll: function () {
+        if (!this.$refs.foodScroll) {
+          return
+        } else if (this.foodScroll === undefined) {
+          this.foodScroll = new BetterScroll(this.$refs.foodScroll, {scrollY: true, click: true})
+        }
+        console.log(this.foodScroll + '------')
       }
     },
     components: {
