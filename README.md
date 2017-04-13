@@ -1,6 +1,6 @@
 # sell
 
-> A Vue.js project
+> vue.js2.0仿饿了么
 
 ## Build Setup
 
