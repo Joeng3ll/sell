@@ -41,23 +41,26 @@
       <transition name="slide">
         <aside class="car-box" v-show="detailShow">
           <header class="car-header">
-          <p class="header-text">购物车</p>
-          <span class="clear-car" @click="clearShopCar">清空</span>
-        </header>
+            <p class="header-text">购物车</p>
+            <span class="clear-car" @click="clearShopCar">清空</span>
+          </header>
           <div class="car-content " ref="foodScroll">
-          <div class="scroll-box">
-            <section class="car-item" v-for="food in foodsList">
-              <p class="foods-name">{{food.name}}</p>
-              <div class="foods-more">
-                <p class="foods-price"><span class="¥">¥</span>{{food.price}}</p>
-                <card-shop :foodsItem="food" @decreaseFoods="decreaseFoods"></card-shop>
-              </div>
-            </section>
+            <div class="scroll-box">
+              <section class="car-item" v-for="food in foodsList">
+                <p class="foods-name">{{food.name}}</p>
+                <div class="foods-more">
+                  <p class="foods-price"><span class="¥">¥</span>{{food.price}}</p>
+                  <card-shop :foodsItem="food" @decreaseFoods="decreaseFoods"></card-shop>
+                </div>
+              </section>
+            </div>
           </div>
-        </div>
-      </aside>
+        </aside>
       </transition>
     </div>
+    <transition name="maskFade">
+      <div class="mask" v-show="detailShow" @click="detailShow=false"></div>
+    </transition>
   </div>
 </template>
 
@@ -155,7 +158,12 @@
       },
       _initialBetterScroll: function () {
         if (this.foodScroll === undefined) {
-          this.foodScroll = new BetterScroll(this.$refs.foodScroll, {scrollY: true, probeType: 3, click: true})
+          this.foodScroll = new BetterScroll(this.$refs.foodScroll, {
+            directionLockThreshold: 5,
+            scrollY: true,
+            probeType: 3,
+            click: true
+          })
         }
         console.log(this.foodScroll)
       },
@@ -178,6 +186,7 @@
   .footer
     position fixed
     display flex
+    flex-flow row wrap
     height 48px
     line-height 48px
     width 100%
@@ -185,13 +194,12 @@
     background #141d27
     & > .footer-left
       position relative
-      z-index 100
       flex 1
       font-size 0
+      background #141d27
       & > .shop-car
         display inline-block
         position: relative
-        z-index 100
         left 12px
         bottom: 8px
         width 58px
@@ -202,7 +210,6 @@
         background #141d27
         & > .icon-bg
           position relative
-          z-index 100
           width 44px
           height 44px
           display flex
@@ -220,11 +227,9 @@
             font-size 24px
             line-height 24px
             color rgb(128, 133, 138)
-
         & > .foods-num
           display inline-block
           position absolute
-          z-index 101
           padding 3px 10px
           top -1px
           right -4px
@@ -253,7 +258,6 @@
                 transition all 0.3s linear
       & > .total-price
         position relative
-        z-index 100
         display inline-block
         height 100%
         vertical-align top
@@ -266,7 +270,6 @@
           color #fff
       & > .deliver-price
         position relative
-        z-index 100
         display inline-block
         vertical-align top
         margin-left 12px
@@ -275,7 +278,6 @@
         color: rgba(255, 255, 255, 0.4)
     & > .min-price
       position relative
-      z-index 100
       flex 0 0 105px
       width 105px
       font-size 12px
@@ -288,19 +290,18 @@
         background #00b43c
         color #fff
     & > .car-detail
+      position absolute
+      z-index -1
+      width 100%
       & > .car-box
         width 100%
-        position absolute
-        bottom 48px
-        left 0
         max-height 281.5px
         background rgb(255, 255, 255)
         font-size 0
-        overflow hidden
         transition all 0.3s
-        transform translate3d(0,0,0)
-        &.slide-enter,&.slide-leave
-          transform translate3d(0,100%,0)
+        transform translate3d(0, -100%, 0)
+        &.slide-enter, &.slide-leave-active
+          transform translate3d(0, 0, 0)
         p
           display inline-block
         & > .car-header
@@ -319,7 +320,7 @@
             font-size 12px
             color rgb(0, 160, 220)
         & > .car-content
-          overflow hidden
+          max-height 241.5px
           & > .scroll-box
             padding 0 18px
             & > .car-item
@@ -338,4 +339,16 @@
                   font-size 14px
                   color rgb(240, 20, 20)
                   margin-right 12px
+
+  .mask
+    position fixed
+    z-index -2
+    top 0
+    left 0
+    width 100%
+    height 100%
+    background rgba(7, 17, 27, 0.6)
+    transition all .3s
+    &.maskFade-enter, &.maskFade-leave-active
+      opacity 0
 </style>
