@@ -1,9 +1,8 @@
 <template>
   <div class="footer">
-    <div class="footer-left">
+    <div class="footer-left" @click="showDetail()">
       <!--购物车-->
-      <section class="shop-car"
-               @click="showDetail()">
+      <section class="shop-car">
         <div class="icon-bg"
              v-bind:class="{ 'car-select': foodsNum>0,'car-not-select': foodsNum===0  }"
         >
@@ -15,7 +14,7 @@
             <transition name="drop"
                         v-on:before-enter="beforeDrop"
                         v-on:enter="enterDrop"
-                        v-on:after-enter="afterEnter">
+                        v-on:after-enter="afterDrop">
               <div class="ball" v-show="ball.show">
                 <span class="inner innerHook"></span>
               </div>
@@ -138,7 +137,7 @@
           ball.getElementsByClassName('innerHook')[0].style.transform = 'translate3d(0,0,0)'
         })
       },
-      afterEnter: function (ball) {
+      afterDrop: function (ball) {
         console.log('afterDrop')
         let dropBalls = Store.getters.getDropBallList
         let dropBall = dropBalls.shift
@@ -298,8 +297,9 @@
         max-height 281.5px
         background rgb(255, 255, 255)
         font-size 0
-        transition all 0.3s
         transform translate3d(0, -100%, 0)
+        &.slide-enter-active,&.slide-leave-active
+          transition all 0.5s
         &.slide-enter, &.slide-leave-active
           transform translate3d(0, 0, 0)
         p
@@ -348,7 +348,7 @@
     width 100%
     height 100%
     background rgba(7, 17, 27, 0.6)
-    transition all .3s
+    transition all .5s
     &.maskFade-enter, &.maskFade-leave-active
       opacity 0
 </style>

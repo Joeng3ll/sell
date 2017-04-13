@@ -4,7 +4,7 @@
     <header class="goodsList-name">{{goodsList.name}}</header>
     <!--餐品列表-->
     <article class="goodsList-content">
-      <section v-for="item in goodsList.foods" class="goodsList-item">
+      <section v-for="item in goodsList.foods" class="goodsList-item" @click="showFoodDetail(item)">
         <img :src="item.image" width="60px" height="60px" class="foods-avator">
         <div class="foods-detail">
           <p class="foods-name">{{item.name}}</p>
@@ -18,6 +18,8 @@
         </div>
       </section>
     </article>
+    <!--商品详情弹出层-->
+    <div class="foodDetail-mask"></div>
   </div>
 </template>
 
@@ -32,11 +34,14 @@
     created() {
     },
     methods: {
-      addFoods: function (item) {
+      addFoods(item) {
         this.$emit('addFoods', item)
       },
-      decreaseFoods: function (item) {
+      decreaseFoods(item) {
         this.$emit('decreaseFoods', item)
+      },
+      showFoodDetail(item) {
+        this.$emit('showFoodDetail', item)
       }
     },
     components: {

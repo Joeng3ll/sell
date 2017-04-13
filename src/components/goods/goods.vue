@@ -14,10 +14,25 @@
     <article class="goods-detail" ref="foodsDetail">
       <div>
         <section v-for="item in goods" class="goods-list goods-list-hook">
-          <goods-component :goodsList="item" @addFoods="addFoods" @decreaseFoods="decreaseFoods"></goods-component>
+          <goods-component :goodsList="item" @addFoods="addFoods" @decreaseFoods="decreaseFoods"
+                           @showFoodDetail="showFoodDetail"></goods-component>
         </section>
       </div>
     </article>
+    <!--商品详情页弹出层开始-->
+    <div class="foodDetail-mask" v-show="showDetailTag">
+      <!--商品详情小图开始-->
+      <div class="foodDetail-tab" v-show="showDetailTag">
+        <foods-tab :foodItem="foodItem"></foods-tab>
+      </div>
+      <!--商品详情小图结束-->
+      <!--背景层开始-->
+      <div class="bg">
+        <img :src="foodItem.image" width="100%" height="100%">
+      </div>
+      <!--背景层结束-->
+    </div>
+    <!--商品详情页弹出层结束-->
   </div>
 </template>
 
@@ -28,6 +43,7 @@
   import GoodsItem from 'components/goodsItem/goodsItem.vue'
   import BetterScroll from 'better-scroll'
   import Store from '../../vuex/store'
+  import foodsDetailTab from 'components/foodsDetailTab/foodsDetailTab'
   Vue.prototype.$http = Qs
   const ERROR_OK = 0
   export default {
@@ -36,7 +52,9 @@
         goods: [],
         heightArr: [],
         currentY: 0,
-        foodsList: []
+        foodsList: [],
+        foodItem: Object,
+        showDetailTag: false
       }
     },
     props: ['seller'],
@@ -57,7 +75,8 @@
     },
     components: {
       'tabComponent': tabComponent,
-      'goodsComponent': GoodsItem
+      'goodsComponent': GoodsItem,
+      'foodsTab': foodsDetailTab
     },
     computed: {
       currentIndex: function () {
@@ -112,6 +131,10 @@
       },
       decreaseFoods(item) {
 //        Store.dispatch('desFoodsList', item)
+      },
+      showFoodDetail(item) {
+        this.showDetailTag = true
+        this.foodItem = item
       }
     }
   }
@@ -155,5 +178,35 @@
       flex 1
       height 100%
       position relative
-
+    & > .foodDetail-mask
+      position fixed
+      z-index 100
+      display flex
+      justify-content center
+      align-items center
+      top 0
+      left 0
+      width 100%
+      height 100%
+      background rgba(7, 17, 27, 0.9)
+      & > .foodDetail-tab
+        width 320px
+        height 430px
+        border-radius 5px
+        & > .detailTab-wrapper
+          & > .pic-wrapper
+            & > img
+              border-top-left-radius 5px
+              border-top-right-radius 5px
+          & > .food-detail
+            border-bottom-left-radius 5px
+            border-bottom-right-radius 5px
+      & > .bg
+        position absolute
+        z-index -1
+        width 100%
+        height 100%
+        top 0
+        left 0
+        filter blur(30px)
 </style>
