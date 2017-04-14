@@ -13,7 +13,15 @@
           <span class="add-food" @click="addToCar(foodItem,$event)">加入购物车</span>
         </div>
         <div v-else>
-          <shop-card :foodsItem="foodItem"></shop-card>
+          <div class="card-wrapper">
+            <transition name="fade">
+      <span @click.stop="decreaseFoods($event)" class="decrease" v-if="foodItem.checkNum>0"><i
+        class="icon-remove_circle_outline inner"
+      ></i></span>
+            </transition>
+            <p v-if="foodItem.checkNum>0">{{foodItem.checkNum}}</p>
+            <span @click.stop="addFoods($event)"><i class="icon-add_circle"></i></span>
+          </div>
         </div>
       </section>
     </div>
@@ -21,7 +29,6 @@
 </template>
 
 <script type="text/ecmascript-6">
-  import shopCard from 'components/cardShop/cardShop'
   import Store from '../../vuex/store'
   export default {
     props: ['foodItem'],
@@ -32,10 +39,20 @@
       addToCar(foodItem, $event) {
         this.$emit('addToCar', $event)
         Store.dispatch('addFoodsList', foodItem)
+      },
+      addFoods: function ($event) {
+        let addHook = $event.target
+        Store.dispatch('changeBallPosition', addHook)
+        Store.dispatch('addFoodsList', this.foodItem)
+        this.$nextTick(function () {
+          Store.dispatch('dropBalls')
+        })
+        console.log('dd')
+      },
+      decreaseFoods: function () {
+        Store.dispatch('desFoodsList', this.foodItem)
+        this.$emit('decreaseFoods')
       }
-    },
-    components: {
-      'shopCard': shopCard
     }
   }
 
@@ -82,6 +99,43 @@
             -webkit-border-radius: 8px
             -moz-border-radius: 8px
             border-radius: 8px
+          &>.card-wrapper
+            display inline-block
+            height 24px
+            line-height 24px
+            font-size 0
+            & > .decrease
+              vertical-align top
+              transition all .5s
+              transform translate3D(0, 0, 0)
+              & > .inner
+                display inline-block
+                width 20px
+                height 20px
+                transition all .5s
+                transform rotate(0)
+              &.fade-enter, &.fade-leave-active
+                opacity 0
+                transform translate3D(12px, 0, 0)
+                & > .inner
+                  transform rotate(180deg)
+            & > p
+              font-size 12px
+              display inline-block
+              color rgb(147, 153, 159)
+              width 24px
+              height 24px
+              text-align center
+              line-height 24px
+            & > span
+              display inline-block
+              line-height 24px
+              font-size 0
+              vertical-align top
+              & > .icon-add_circle, & > .icon-remove_circle_outline
+                font-size 20px
+                line-height 24px
+                color: rgb(26, 161, 217)
         & > .food-price
           font-size 14px
           color #ff6000
