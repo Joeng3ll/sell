@@ -14,17 +14,17 @@
     <article class="goods-detail" ref="foodsDetail">
       <div>
         <section v-for="item in goods" class="goods-list goods-list-hook">
-          <goods-component :goodsList="item" @addFoods.stop="addFoods" @decreaseFoods.stop="decreaseFoods"
+          <goods-component :goodsList="item" @addFoods="addFoods" @decreaseFoods="decreaseFoods"
                            @showFoodDetail="showFoodDetail"></goods-component>
         </section>
       </div>
     </article>
     <!--商品详情页弹出层开始-->
-    <div class="foodDetail-mask" v-show="showDetailTag" @click.prevent="showDetailTag=false">
+    <div class="foodDetail-mask" v-show="showDetailTag" @click="showDetailTag=false">
       <transition name="tabFade">
         <!--商品详情小图开始-->
         <div class="foodDetail-tab" v-show="showDetailTag">
-          <foods-tab :foodItem="foodItem"></foods-tab>
+          <foods-tab :foodItem="foodItem" @addToCar="addToCar"></foods-tab>
         </div>
         <!--商品详情小图结束-->
       </transition>
@@ -138,6 +138,9 @@
         this.showDetailTag = true
         this.foodItem = item
         console.log(this.foodItem)
+      },
+      addToCar($event) {
+        console.log($event.target)
       }
     }
   }
@@ -196,8 +199,8 @@
         width 85%
         border-radius 5px
         transition all 0.3s
-        &.tabFade-enter,&.tabFade-leave-active
-          transform scale(0.5,0.5)
+        &.tabFade-enter, &.tabFade-leave-active
+          transform scale(0.5, 0.5)
         & > .detailTab-wrapper
           & > .pic-wrapper
             & > img

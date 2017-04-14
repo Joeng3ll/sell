@@ -10,7 +10,7 @@
       <section class="food-more">
         <p class="food-price">¥{{foodItem.price}}</p>
         <div v-if="foodItem.checkNum===0">
-          <span class="add-food">加入购物车</span>
+          <span class="add-food" @click="addToCar(foodItem,$event)">加入购物车</span>
         </div>
         <div v-else>
           <shop-card :foodsItem="foodItem"></shop-card>
@@ -22,10 +22,17 @@
 
 <script type="text/ecmascript-6">
   import shopCard from 'components/cardShop/cardShop'
+  import Store from '../../vuex/store'
   export default {
     props: ['foodItem'],
     mounted() {
       console.log('mounted')
+    },
+    methods: {
+      addToCar(foodItem, $event) {
+        this.$emit('addToCar', $event)
+        Store.dispatch('addFoodsList', foodItem)
+      }
     },
     components: {
       'shopCard': shopCard
