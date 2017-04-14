@@ -9,17 +9,26 @@
       <p class="food-sell">月售{{foodItem.sellCount}}份 好评率{{foodItem.rating}}%</p>
       <section class="food-more">
         <p class="food-price">¥{{foodItem.price}}</p>
-        <span class="add-food">加入购物车</span>
+        <div v-if="foodItem.checkNum===0">
+          <span class="add-food">加入购物车</span>
+        </div>
+        <div v-else>
+          <shop-card :foodsItem="foodItem"></shop-card>
+        </div>
       </section>
     </div>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+  import shopCard from 'components/cardShop/cardShop'
   export default {
     props: ['foodItem'],
     mounted() {
       console.log('mounted')
+    },
+    components: {
+      'shopCard': shopCard
     }
   }
 
@@ -46,15 +55,27 @@
     .food-detail
       background #fff
       padding 13px 10px 10px 15px
-      &>.food-name
+      & > .food-name
         font-size 14px
         margin-bottom 10px
-      &>.food-sell
+      & > .food-sell
         font-size 10px
         font-weight 200
         margin-bottom 26px
-      &>.food-more
-        &>.food-price
+      & > .food-more
+        display flex
+        justify-content space-between
+        div
+          display inline-block
+          & > .add-food
+            font-size 12px
+            padding 5px
+            background rgb(55, 146, 229)
+            color #fff
+            -webkit-border-radius: 8px
+            -moz-border-radius: 8px
+            border-radius: 8px
+        & > .food-price
           font-size 14px
           color #ff6000
 </style>

@@ -20,7 +20,7 @@
       </div>
     </article>
     <!--商品详情页弹出层开始-->
-    <div class="foodDetail-mask" v-show="showDetailTag" @click="showDetailTag=false">
+    <div class="foodDetail-mask" v-show="showDetailTag" @click.prevent="showDetailTag=false">
       <transition name="tabFade">
         <!--商品详情小图开始-->
         <div class="foodDetail-tab" v-show="showDetailTag">

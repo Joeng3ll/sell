@@ -1,12 +1,12 @@
 <template>
   <div class="card-wrapper">
     <transition name="fade">
-      <span @click="decreaseFoods($event)" class="decrease" v-if="foodsItem.checkNum>0"><i
+      <span @click.stop="decreaseFoods($event)" class="decrease" v-if="foodsItem.checkNum>0"><i
         class="icon-remove_circle_outline inner"
       ></i></span>
     </transition>
     <p v-if="foodsItem.checkNum>0">{{foodsItem.checkNum}}</p>
-    <span @click="addFoods($event)" ><i class="icon-add_circle"></i></span>
+    <span @click.stop="addFoods($event)" ><i class="icon-add_circle"></i></span>
   </div>
 </template>
 
