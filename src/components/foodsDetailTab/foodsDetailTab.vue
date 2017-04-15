@@ -15,9 +15,8 @@
         <div v-else>
           <div class="card-wrapper">
             <transition name="fade">
-      <span @click.stop="decreaseFoods($event)" class="decrease" v-if="foodItem.checkNum>0"><i
-        class="icon-remove_circle_outline inner"
-      ></i></span>
+              <span @click.stop="decreaseFoods($event)" class="decrease" v-if="foodItem.checkNum>0"><i
+                class="icon-remove_circle_outline inner"></i></span>
             </transition>
             <p v-if="foodItem.checkNum>0">{{foodItem.checkNum}}</p>
             <span @click.stop="addFoods($event)"><i class="icon-add_circle"></i></span>
@@ -63,7 +62,12 @@
     font-size 0
     .pic-wrapper
       position relative
+      width 100%
+      height 0
+      padding-top 100%
       img
+        position absolute
+        top 0
         display block
         width 100%
         height 100%
@@ -99,7 +103,7 @@
             -webkit-border-radius: 8px
             -moz-border-radius: 8px
             border-radius: 8px
-          &>.card-wrapper
+          & > .card-wrapper
             display inline-block
             height 24px
             line-height 24px

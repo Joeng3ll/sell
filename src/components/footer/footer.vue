@@ -137,7 +137,7 @@
           ball.getElementsByClassName('innerHook')[0].style.transform = 'translate3d(0,0,0)'
         })
       },
-      afterDrop: function (ball) {
+      afterDrop (ball) {
         console.log('afterDrop')
         let dropBalls = Store.getters.getDropBallList
         let dropBall = dropBalls.shift

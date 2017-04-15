@@ -20,21 +20,26 @@
       </div>
     </article>
     <!--商品详情页弹出层开始-->
-    <div class="foodDetail-mask" v-show="showDetailTag" @click="showDetailTag=false">
+    <div class="foodDetail-mask" v-show="showDetailTag">
       <transition name="tabFade">
         <!--商品详情小图开始-->
-        <div class="foodDetail-tab" v-show="showDetailTag">
+        <div class="foodDetail-tab" v-show="showDetailTag" @click.stop="showDetailPage(foodItem)">
           <foods-tab :foodItem="foodItem" @addToCar="addToCar"></foods-tab>
         </div>
         <!--商品详情小图结束-->
       </transition>
       <!--背景层开始-->
-      <div class="bg">
+      <div class="bg" @click="showDetailTag=false">
         <img :src="foodItem.image" width="100%" height="100%">
       </div>
       <!--背景层结束-->
     </div>
     <!--商品详情页弹出层结束-->
+    <!--商品详情页大页开始-->
+    <transition name="detailFade">
+      <foods-detail :foodItem="foodItem" v-show="showMoreDetailTag" @closeDetail="closeDetailPage"></foods-detail>
+    </transition>
+    <!--商品详情页大页结束-->
   </div>
 </template>
 
@@ -46,6 +51,7 @@
   import BetterScroll from 'better-scroll'
   import Store from '../../vuex/store'
   import foodsDetailTab from 'components/foodsDetailTab/foodsDetailTab'
+  import foodsDetail from 'components/foodsDetail/foodsDetail'
   Vue.prototype.$http = Qs
   const ERROR_OK = 0
   export default {
@@ -56,7 +62,8 @@
         currentY: 0,
         foodsList: [],
         foodItem: Object,
-        showDetailTag: false
+        showDetailTag: false,
+        showMoreDetailTag: false
       }
     },
     props: ['seller'],
@@ -78,7 +85,8 @@
     components: {
       'tabComponent': tabComponent,
       'goodsComponent': GoodsItem,
-      'foodsTab': foodsDetailTab
+      'foodsTab': foodsDetailTab,
+      'foodsDetail': foodsDetail
     },
     computed: {
       currentIndex: function () {
@@ -141,6 +149,13 @@
       },
       addToCar($event) {
         console.log($event.target)
+      },
+      showDetailPage(item) {
+        this.showDetailTag = false
+        this.showMoreDetailTag = true
+      },
+      closeDetailPage() {
+        this.showMoreDetailTag = false
       }
     }
   }
@@ -195,6 +210,14 @@
       width 100%
       height 100%
       background rgba(7, 17, 27, 0.9)
+      & > .bg
+        position absolute
+        z-index -1
+        width 100%
+        height 100%
+        top 0
+        left 0
+        filter blur(30px)
       & > .foodDetail-tab
         width 85%
         border-radius 5px
@@ -209,12 +232,4 @@
           & > .food-detail
             border-bottom-left-radius 5px
             border-bottom-right-radius 5px
-      & > .bg
-        position absolute
-        z-index -1
-        width 100%
-        height 100%
-        top 0
-        left 0
-        filter blur(30px)
 </style>
