@@ -10,7 +10,7 @@
       <section class="food-more">
         <p class="food-price">¥{{foodItem.price}}</p>
         <div v-if="foodItem.checkNum===0">
-          <span class="add-food" @click="addToCar(foodItem,$event)">加入购物车</span>
+          <span class="add-food" @click.stop="addToCar(foodItem,$event)">加入购物车</span>
         </div>
         <div v-else>
           <div class="card-wrapper">
@@ -43,10 +43,9 @@
         let addHook = $event.target
         Store.dispatch('changeBallPosition', addHook)
         Store.dispatch('addFoodsList', this.foodItem)
-        this.$nextTick(function () {
-          Store.dispatch('dropBalls')
-        })
-        console.log('dd')
+//        this.$nextTick(function () {
+//          Store.dispatch('dropBalls')
+//        })
       },
       decreaseFoods: function () {
         Store.dispatch('desFoodsList', this.foodItem)

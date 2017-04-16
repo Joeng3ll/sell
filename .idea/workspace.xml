@@ -7,8 +7,6 @@
     <list default="true" id="6351000e-0c13-43a4-b4fd-a8f2f27add6e" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/foodsDetail/foodsDetail.vue" afterPath="$PROJECT_DIR$/src/components/foodsDetail/foodsDetail.vue" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/foodsDetailTab/foodsDetailTab.vue" afterPath="$PROJECT_DIR$/src/components/foodsDetailTab/foodsDetailTab.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/footer/footer.vue" afterPath="$PROJECT_DIR$/src/components/footer/footer.vue" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/components/goods/goods.vue" afterPath="$PROJECT_DIR$/src/components/goods/goods.vue" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -48,11 +46,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="goods.vue" pinned="false" current-in-tab="false">
+      <file leaf-file-name="goods.vue" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/components/goods/goods.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1882">
-              <caret line="39" column="85" lean-forward="true" selection-start-line="39" selection-start-column="85" selection-end-line="39" selection-end-column="85" />
+            <state relative-caret-position="2298">
+              <caret line="205" column="28" lean-forward="true" selection-start-line="205" selection-start-column="28" selection-end-line="205" selection-end-column="28" />
               <folding>
                 <element signature="n#aside#0;n#div#0;n#template#0;n#!!top" expanded="false" />
                 <element signature="e#1608#1657#0" expanded="true" />
@@ -65,23 +63,24 @@
                 <element signature="e#5334#5923#0" expanded="false" />
                 <element signature="e#5948#5996#0" expanded="false" />
                 <element signature="e#6254#6384#0" expanded="false" />
+                <element signature="e#6419#6839#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="foodsDetail.vue" pinned="false" current-in-tab="true">
+      <file leaf-file-name="foodsDetail.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/foodsDetail/foodsDetail.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="65" column="33" lean-forward="true" selection-start-line="65" selection-start-column="33" selection-end-line="65" selection-end-column="33" />
+            <state relative-caret-position="1045">
+              <caret line="58" column="14" lean-forward="true" selection-start-line="58" selection-start-column="14" selection-end-line="58" selection-end-column="14" />
               <folding>
                 <element signature="n#p#0;n#section#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
                 <element signature="n#div#0;n#section#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
-                <element signature="e#1720#3471#0" expanded="false" />
-                <element signature="e#1853#1946#0" expanded="false" />
-                <element signature="e#2455#2554#0" expanded="false" />
-                <element signature="e#2588#2666#0" expanded="false" />
+                <element signature="e#1742#3493#0" expanded="false" />
+                <element signature="e#1875#1968#0" expanded="false" />
+                <element signature="e#2477#2576#0" expanded="false" />
+                <element signature="e#2610#2688#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -90,11 +89,10 @@
       <file leaf-file-name="foodsDetailTab.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/components/foodsDetailTab/foodsDetailTab.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-438">
-              <caret line="103" column="22" lean-forward="true" selection-start-line="103" selection-start-column="22" selection-end-line="103" selection-end-column="22" />
+            <state relative-caret-position="152">
+              <caret line="46" column="34" lean-forward="false" selection-start-line="46" selection-start-column="34" selection-end-line="46" selection-end-column="34" />
               <folding>
                 <element signature="n#section#0;n#div#0;n#template#0;n#!!top" expanded="false" />
-                <element signature="n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -252,10 +250,10 @@
         <option value="$PROJECT_DIR$/src/vuex/mutation.js" />
         <option value="$PROJECT_DIR$/src/components/goodsItem/goodsItem.vue" />
         <option value="$PROJECT_DIR$/src/components/cardShop/cardShop.vue" />
-        <option value="$PROJECT_DIR$/src/components/foodsDetailTab/foodsDetailTab.vue" />
         <option value="$PROJECT_DIR$/src/components/footer/footer.vue" />
         <option value="$PROJECT_DIR$/src/components/goods/goods.vue" />
         <option value="$PROJECT_DIR$/src/components/foodsDetail/foodsDetail.vue" />
+        <option value="$PROJECT_DIR$/src/components/foodsDetailTab/foodsDetailTab.vue" />
       </list>
     </option>
   </component>
@@ -529,15 +527,15 @@
       <workItem from="1490341849068" duration="57036000" />
       <workItem from="1490772056160" duration="28880000" />
       <workItem from="1491443472135" duration="17523000" />
-      <workItem from="1491531923312" duration="84156000" />
+      <workItem from="1491531923312" duration="84596000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="216129000" />
+    <option name="totallyTimeSpent" value="216569000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="286" y="23" width="1201" height="756" extended-state="1" />
+    <frame x="286" y="23" width="1201" height="756" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.03898305" sideWeight="0.7816514" order="0" side_tool="false" content_ui="combo" />
@@ -992,21 +990,35 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/foodsDetail/foodsDetail.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1045">
+          <caret line="58" column="14" lean-forward="true" selection-start-line="58" selection-start-column="14" selection-end-line="58" selection-end-column="14" />
+          <folding>
+            <element signature="n#p#0;n#section#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
+            <element signature="n#div#0;n#section#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
+            <element signature="e#1742#3493#0" expanded="false" />
+            <element signature="e#1875#1968#0" expanded="false" />
+            <element signature="e#2477#2576#0" expanded="false" />
+            <element signature="e#2610#2688#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/foodsDetailTab/foodsDetailTab.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-438">
-          <caret line="103" column="22" lean-forward="true" selection-start-line="103" selection-start-column="22" selection-end-line="103" selection-end-column="22" />
+        <state relative-caret-position="152">
+          <caret line="46" column="34" lean-forward="false" selection-start-line="46" selection-start-column="34" selection-end-line="46" selection-end-column="34" />
           <folding>
             <element signature="n#section#0;n#div#0;n#template#0;n#!!top" expanded="false" />
-            <element signature="n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/components/goods/goods.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1882">
-          <caret line="39" column="85" lean-forward="true" selection-start-line="39" selection-start-column="85" selection-end-line="39" selection-end-column="85" />
+        <state relative-caret-position="2298">
+          <caret line="205" column="28" lean-forward="true" selection-start-line="205" selection-start-column="28" selection-end-line="205" selection-end-column="28" />
           <folding>
             <element signature="n#aside#0;n#div#0;n#template#0;n#!!top" expanded="false" />
             <element signature="e#1608#1657#0" expanded="true" />
@@ -1019,21 +1031,7 @@
             <element signature="e#5334#5923#0" expanded="false" />
             <element signature="e#5948#5996#0" expanded="false" />
             <element signature="e#6254#6384#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/foodsDetail/foodsDetail.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="65" column="33" lean-forward="true" selection-start-line="65" selection-start-column="33" selection-end-line="65" selection-end-column="33" />
-          <folding>
-            <element signature="n#p#0;n#section#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
-            <element signature="n#div#0;n#section#0;n#div#0;n#div#0;n#div#0;n#template#0;n#!!top" expanded="false" />
-            <element signature="e#1720#3471#0" expanded="false" />
-            <element signature="e#1853#1946#0" expanded="false" />
-            <element signature="e#2455#2554#0" expanded="false" />
-            <element signature="e#2588#2666#0" expanded="false" />
+            <element signature="e#6419#6839#0" expanded="false" />
           </folding>
         </state>
       </provider>

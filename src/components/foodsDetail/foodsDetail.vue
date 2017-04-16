@@ -65,7 +65,7 @@
     &.detailFade-enter
       transform scale(0.85, 0.85)
     &.detailFade-leave-active
-      opacity 0
+      transform translate3d(100%,0,0)
     & > .food-content
       & > .content-header
         position relative
