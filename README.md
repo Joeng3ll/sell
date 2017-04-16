@@ -2,6 +2,8 @@
 
 > vue.js2.0仿饿了么的一个小demo(vue2.0+vue-cli+axios+webpack+vue-router)
 
+持续更新中.. 完整后整理记录会做总结
+
 ## Build Setup
 
 ``` bash
