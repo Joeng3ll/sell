@@ -1,4 +1,4 @@
-# sell
+# vue.js2.0小demo
 
 > vue.js2.0仿饿了么的一个小demo(vue2.0+vue-cli+axios+webpack+vue-router)
 
