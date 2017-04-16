@@ -1,4 +1,4 @@
-# vue.js2.0小demo
+# vue.js仿饿了么小部分（前端部分）
 
 > vue.js2.0仿饿了么的一个小demo(vue2.0+vue-cli+axios+webpack+vue-router)
 
