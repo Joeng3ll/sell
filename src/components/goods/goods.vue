@@ -148,7 +148,7 @@
         console.log(this.foodItem)
       },
       addToCar($event) {
-        console.log($event.target)
+        this.showDetailTag = false
       },
       showDetailPage(item) {
         this.showDetailTag = false

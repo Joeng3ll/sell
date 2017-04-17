@@ -1,5 +1,5 @@
 <template>
-  <div class="detail-wrapper">
+  <div class="food-detail-wrapper">
     <div class="food-content">
       <header class="content-header">
         <img :src="foodItem.image">
@@ -54,7 +54,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
-  .detail-wrapper
+  .food-detail-wrapper
     position fixed
     width 100%
     top 0
