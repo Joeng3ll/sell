@@ -1,5 +1,5 @@
 <template>
-  <div class="food-detail-wrapper">
+  <div class="food-detail-wrapper" ref="foodDetailContent">
     <div class="food-content">
       <header class="content-header">
         <img :src="foodItem.image">
@@ -20,9 +20,32 @@
           </div>
         </section>
       </div>
-      <!--商品介绍-->
-      <section class="food-intro">
+      <!--商品评价-->
+      <section class="food-rating">
+        <header class="rating-header">
+          <p class="rating-header-text">商品评价</p>
+          <div class="rating-type-box">
+            <!--评价分类-->
+            <div class="rating-type">
+              <p class="rating-type-item rating-0">全部<span></span></p>
+              <p class="rating-type-item rating-1">推荐<span></span></p>
+              <p class="rating-type-item rating-2">吐槽<span></span></p>
+            </div>
+            <!--只看有内容的评价-->
+            <section class="select-only">
+              <span><i></i></span>
+              <span>只看有内容的评价</span>
+            </section>
+          </div>
+        </header>
+        <article class="rating-content">
+          <!--评价列表-->
+          <div class="rating-list">
+            <section>
 
+            </section>
+          </div>
+        </article>
       </section>
     </div>
   </div>
@@ -30,18 +53,27 @@
 
 <script type="text/ecmascript-6">
   import cardShop from 'components/cardShop/cardShop'
+  import BScroll from 'better-scroll'
   export default {
     data() {
       return {}
     },
     created () {
-//      console.log(this.foodItem)
+      this.$nextTick(function () {
+        this._initialScroll()
+      })
     },
     props: ['foodItem'],
     components: {
       'cardShop': cardShop
     },
     methods: {
+      _initialScroll() {
+        if (this.foodDetailScroll === undefined) {
+          this.foodDetailScroll = new BScroll(this.$refs.foodDetailContent, {click: true})
+        }
+        console.log(this.foodDetailScroll)
+      },
       showDetailPage(item) {
         console.log(item)
       },
@@ -54,6 +86,7 @@
 </script>
 
 <style lang="stylus" rel="stylesheet/stylus">
+  @import "../../common/stylus/mixin.styl"
   .food-detail-wrapper
     position fixed
     width 100%
@@ -65,7 +98,7 @@
     &.detailFade-enter
       transform scale(0.85, 0.85)
     &.detailFade-leave-active
-      transform translate3d(100%,0,0)
+      transform translate3d(100%, 0, 0)
     & > .food-content
       & > .content-header
         position relative
@@ -126,9 +159,24 @@
               color rgb(147, 153, 159)
               font-size 10px
               font-weight normal
-      & > .food-intro
-        padding 18px
+      & > .food-rating
+        padding 18px 18px 0 18px
         margin-top 14px
+        font-size 0
         border-top 2px solid rgba(7, 17, 27, 0.1)
+        border-bottom 2px solid rgba(7, 17, 27, 0.1)
         background #fff
+        & > .rating-header
+          & > .rating-header-text
+            font-size 14px
+          & > .rating-type-box
+            & > .rating-type
+              border-1px(rgba(7, 17, 27, 0.1))
+              & > .rating-type-item
+                display inline-block
+                padding 8px 12px
+                font-size 12px
+                line-height 16px
+                border-radius 2px
+                margin-right 8px
 </style>

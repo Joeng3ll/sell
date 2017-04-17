@@ -36,25 +36,26 @@
          :class="{'no-select': totalPrice < seller.minPrice, 'select':totalPrice >= seller.minPrice }">
       <p>{{startPrice}}</p>
     </div>
+    <!--购物车详情-->
     <transition name="slide">
-      <div class="car-detail" v-show="detailShow" v-if="hasfoods" ref="carDetail">
-          <aside class="car-box">
-            <header class="car-header">
-              <p class="header-text">购物车</p>
-              <span class="clear-car" @click="clearShopCar">清空</span>
-            </header>
-            <div class="car-content " ref="foodScroll">
-              <div class="scroll-box">
-                <section class="car-item" v-for="food in foodsList">
-                  <p class="foods-name">{{food.name}}</p>
-                  <div class="foods-more">
-                    <p class="foods-price"><span class="¥">¥</span>{{food.price}}</p>
-                    <card-shop :foodsItem="food" @decreaseFoods="decreaseFoods"></card-shop>
-                  </div>
-                </section>
-              </div>
+      <div class="car-detail" v-show="detailShow" v-if="hasfoods">
+        <aside class="car-box">
+          <header class="car-header">
+            <p class="header-text">购物车</p>
+            <span class="clear-car" @click="clearShopCar">清空</span>
+          </header>
+          <div class="car-content " ref="carDetail">
+            <div class="scroll-box">
+              <section class="car-item" v-for="food in foodsList">
+                <p class="foods-name">{{food.name}}</p>
+                <div class="foods-more">
+                  <p class="foods-price"><span class="¥">¥</span>{{food.price}}</p>
+                  <card-shop :foodsItem="food" @decreaseFoods="decreaseFoods"></card-shop>
+                </div>
+              </section>
             </div>
-          </aside>
+          </div>
+        </aside>
       </div>
     </transition>
     <transition name="maskFade">
@@ -80,6 +81,7 @@
       this.$nextTick(function () {
         _this.minPrice = _this.seller.minPrice
         _this.ballList = Store.getters.getBallList
+        _this._initialBetterScroll()
       })
     },
     computed: {
@@ -156,9 +158,8 @@
         this.detailShow = !this.detailShow
       },
       _initialBetterScroll: function () {
-        if (this.foodScroll === undefined) {
-          this.foodScroll = new BetterScroll(this.$refs.foodScroll, {
-            directionLockThreshold: 5,
+        if (!this.foodScroll) {
+          this.foodScroll = new BetterScroll(this.$refs.carDetail, {
             scrollY: true,
             probeType: 3,
             click: true
@@ -294,7 +295,7 @@
       padding-bottom: 62px
       transition all 0.5s
       transform translate3d(0, -100%, 0)
-      &.slide-enter-active,&.slide-leave-active
+      &.slide-enter-active, &.slide-leave-active
         transition all 0.5s
       &.slide-enter, &.slide-leave-active
         transform translate3d(0, 0, 0)
