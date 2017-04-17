@@ -36,27 +36,27 @@
          :class="{'no-select': totalPrice < seller.minPrice, 'select':totalPrice >= seller.minPrice }">
       <p>{{startPrice}}</p>
     </div>
-    <div class="car-detail" v-show="detailShow" v-if="hasfoods" ref="carDetail">
-      <transition name="slide">
-        <aside class="car-box" v-show="detailShow">
-          <header class="car-header">
-            <p class="header-text">购物车</p>
-            <span class="clear-car" @click="clearShopCar">清空</span>
-          </header>
-          <div class="car-content " ref="foodScroll">
-            <div class="scroll-box">
-              <section class="car-item" v-for="food in foodsList">
-                <p class="foods-name">{{food.name}}</p>
-                <div class="foods-more">
-                  <p class="foods-price"><span class="¥">¥</span>{{food.price}}</p>
-                  <card-shop :foodsItem="food" @decreaseFoods="decreaseFoods"></card-shop>
-                </div>
-              </section>
+    <transition name="slide">
+      <div class="car-detail" v-show="detailShow" v-if="hasfoods" ref="carDetail">
+          <aside class="car-box">
+            <header class="car-header">
+              <p class="header-text">购物车</p>
+              <span class="clear-car" @click="clearShopCar">清空</span>
+            </header>
+            <div class="car-content " ref="foodScroll">
+              <div class="scroll-box">
+                <section class="car-item" v-for="food in foodsList">
+                  <p class="foods-name">{{food.name}}</p>
+                  <div class="foods-more">
+                    <p class="foods-price"><span class="¥">¥</span>{{food.price}}</p>
+                    <card-shop :foodsItem="food" @decreaseFoods="decreaseFoods"></card-shop>
+                  </div>
+                </section>
+              </div>
             </div>
-          </div>
-        </aside>
-      </transition>
-    </div>
+          </aside>
+      </div>
+    </transition>
     <transition name="maskFade">
       <div class="mask" v-show="detailShow" @click="detailShow=false"></div>
     </transition>
@@ -289,19 +289,20 @@
         background #00b43c
         color #fff
     & > .car-detail
-      position absolute
       z-index -1
       width 100%
+      padding-bottom: 62px
+      transition all 0.5s
+      transform translate3d(0, -100%, 0)
+      &.slide-enter-active,&.slide-leave-active
+        transition all 0.5s
+      &.slide-enter, &.slide-leave-active
+        transform translate3d(0, 0, 0)
       & > .car-box
         width 100%
         max-height 281.5px
         background rgb(255, 255, 255)
         font-size 0
-        transform translate3d(0, -100%, 0)
-        &.slide-enter-active,&.slide-leave-active
-          transition all 0.5s
-        &.slide-enter, &.slide-leave-active
-          transform translate3d(0, 0, 0)
         p
           display inline-block
         & > .car-header

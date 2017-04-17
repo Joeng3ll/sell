@@ -113,7 +113,7 @@
         this.foodScroll.on('scroll', function (pos) {
           _this.currentY = Math.abs(Math.round(pos.y))
         })
-        console.log(this.foodScroll)
+//        console.log(this.foodScroll)
       },
       _calcuHeight() {
         let lis = this.$refs.foodsDetail.getElementsByClassName('goods-list-hook')

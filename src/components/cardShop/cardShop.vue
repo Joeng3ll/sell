@@ -21,7 +21,8 @@
     },
     props: ['foodsItem'],
     created () {
-      if (typeof this.foodsItem.checkNum === 'undefined') {
+//      console.log(typeof this.foodsItem)
+      if (typeof this.foodsItem.checkNum === 'undefined' && typeof this.foodsItem === 'object') {
         Vue.set(this.foodsItem, 'checkNum', 0)
       }
     },

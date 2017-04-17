@@ -35,7 +35,7 @@
       return {}
     },
     created () {
-      console.log(this.foodItem)
+//      console.log(this.foodItem)
     },
     props: ['foodItem'],
     components: {

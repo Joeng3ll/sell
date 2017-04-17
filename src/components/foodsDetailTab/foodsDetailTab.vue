@@ -32,7 +32,7 @@
   export default {
     props: ['foodItem'],
     mounted() {
-      console.log('mounted')
+//      console.log('mounted')
     },
     methods: {
       addToCar(foodItem, $event) {
