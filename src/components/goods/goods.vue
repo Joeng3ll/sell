@@ -37,7 +37,8 @@
     <!--商品详情页弹出层结束-->
     <!--商品详情页大页开始-->
     <transition name="detailFade">
-      <foods-detail :foodItem="foodItem" v-show="showMoreDetailTag" @closeDetail="closeDetailPage"></foods-detail>
+      <foods-detail :foodItem="foodItem" v-show="showMoreDetailTag" @closeDetail="closeDetailPage"
+                    ref="foodDetailPage"></foods-detail>
     </transition>
     <!--商品详情页大页结束-->
   </div>
@@ -138,6 +139,7 @@
       addFoods(item) {
 //        Store.dispatch('addFoodsList', item)
 //        Store.dispatch('dropBalls')
+        this.$emit('addFoods')
       },
       decreaseFoods(item) {
 //        Store.dispatch('desFoodsList', item)
@@ -145,7 +147,7 @@
       showFoodDetail(item) {
         this.showDetailTag = true
         this.foodItem = item
-        console.log(this.foodItem)
+//        console.log(this.foodItem)
       },
       addToCar($event) {
         this.showDetailTag = false
@@ -153,6 +155,10 @@
       showDetailPage(item) {
         this.showDetailTag = false
         this.showMoreDetailTag = true
+        this.$refs.foodDetailPage._initialRatingList()
+        this.$nextTick(() => {
+          this.$refs.foodDetailPage._initialScroll()
+        })
       },
       closeDetailPage() {
         this.showMoreDetailTag = false

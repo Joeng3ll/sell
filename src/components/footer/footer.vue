@@ -81,7 +81,6 @@
       this.$nextTick(function () {
         _this.minPrice = _this.seller.minPrice
         _this.ballList = Store.getters.getBallList
-        _this._initialBetterScroll()
       })
     },
     computed: {
@@ -154,7 +153,9 @@
         if (this.$refs.carDetail === undefined) {
           return
         }
-        this._initialBetterScroll()
+        this.$nextTick(() => {
+          this._initialBetterScroll()
+        })
         this.detailShow = !this.detailShow
       },
       _initialBetterScroll: function () {

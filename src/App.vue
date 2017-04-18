@@ -13,8 +13,8 @@
         <router-link to="/seller">商家</router-link>
       </div>
     </div>
-    <router-view></router-view>
-    <v-footer :seller="seller"></v-footer>
+    <router-view @addFoods="addFoods"></router-view>
+    <v-footer :seller="seller" ref="footer"></v-footer>
   </div>
 </template>
 
@@ -44,7 +44,14 @@
       'v-header': Header,
       'v-footer': Footer
     },
-    methods: {}
+    methods: {
+      addFoods: function () {
+        this.$nextTick(() => {
+          console.log(this.$refs.footer.carContent)
+          this.$refs.footer._initialBetterScroll()
+        })
+      }
+    }
   }
 </script>
 
