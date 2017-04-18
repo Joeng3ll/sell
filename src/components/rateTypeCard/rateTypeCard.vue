@@ -42,8 +42,8 @@
       }
     },
     methods: {
-      selectRatingType: function () {
-        console.log(this)
+      selectRatingType: function (type) {
+        this.$emit('selectRatingType', type)
       }
     }
   }

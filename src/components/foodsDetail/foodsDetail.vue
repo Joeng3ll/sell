@@ -27,10 +27,10 @@
           <div class="rating-type-box">
             <!--评价分类-->
             <div class="rating-type">
-              <rate-type-card :ratingList="foodItem.ratings"></rate-type-card>
+              <rate-type-card :ratingList="foodItem.ratings" @selectRatingType="selectRatingType"></rate-type-card>
             </div>
             <!--只看有内容的评价-->
-            <section class="select-only">
+            <section class="select-only" @click="selectReadOnly()">
               <span><i class="icon-check_circle"></i></span>
               <span class="text">只看有内容的评价</span>
             </section>
@@ -48,7 +48,7 @@
             </div>
             <!--评价内容-->
             <div class="rating-item-content">
-              <span class="icon"><i class="icon-thumb_up icon"></i></span>
+              <i class="icon" :class="iconType[rating.rateType]"></i>
               <p class="rating-text" v-show="rating.text!==''">{{rating.text}}</p>
             </div>
           </section>
@@ -65,10 +65,18 @@
   export default {
     data() {
       return {
-        ratingList: []
+        ratingList: [],
+        allRatingList: [],
+        goodRatingList: [],
+        badRatingList: [],
+        textRatingList: [],
+        iconType: [],
+        currentRatingList: [],
+        readOnly: false
       }
     },
     created () {
+      this.iconType = ['icon-thumb_up', 'icon-thumb_down']
     },
     props: ['foodItem'],
     components: {
@@ -85,21 +93,82 @@
       },
       _initialRatingList() {
         let arr = []
+        let contentArr = []
+        let goodArr = []
+        let badArr = []
+        //        0为好评
+        const GOOD_TYPE = 0
+        //        差评
+        const BAD_TYPE = 1
         if (this.foodItem.ratings) {
           this.foodItem.ratings.forEach(function (item) {
-            if (item.text === '') {
+            if (item.text !== '') {
+              contentArr.push(item)
+            } else {
               item.text = '系统默认评价'
             }
             arr.push(item)
           })
         }
-        this.ratingList = arr
+        this.allRatingList = arr.concat()
+        if (this.allRatingList) {
+          this.allRatingList.forEach(function (item) {
+//              好评
+            if (item.rateType === GOOD_TYPE) {
+              goodArr.push(item)
+            } else if (item.rateType === BAD_TYPE) {
+              badArr.push(item)
+            }
+          })
+        }
+        this.ratingList = arr.concat()
+        this.goodRatingList = goodArr.concat()
+        this.badRatingList = badArr.concat()
+        this.textRatingList = contentArr.concat()
       },
       showDetailPage(item) {
         console.log(item)
       },
       closeDetail() {
         this.$emit('closeDetail')
+      },
+      selectRatingType(type) {
+        const ALL_TYPE = '0'
+        const GOOD_TYPE = '1'
+        const BAD_TYPE = '2'
+        switch (type) {
+          case ALL_TYPE:
+            this.ratingList = this.allRatingList
+            break
+          case GOOD_TYPE:
+            this.ratingList = this.goodRatingList
+            break
+          case BAD_TYPE:
+            this.ratingList = this.badRatingList
+            break
+        }
+      },
+      selectReadOnly() {
+        let _this = this
+        if (_this.readOnly === false) {
+          _this.currentRatingList = _this.ratingList.concat()
+          _this.ratingList.forEach(function (item, index, arr) {
+            if (item.text === '系统默认评价') {
+              arr.splice(index, 1)
+              console.log(index)
+            }
+          })
+//          for (let i = 0; i < _this.ratingList.length; i++) {
+//            if (_this.ratingList[i].text === '系统默认评价') {
+//              _this.ratingList.splice(i, 1)
+//            }
+//          }
+          _this.readOnly = true
+          console.log(_this.currentRatingList === _this.ratingList)
+        } else {
+          _this.ratingList = _this.currentRatingList
+          _this.readOnly = false
+        }
       }
     }
   }
@@ -236,6 +305,10 @@
                 color rgb(147, 153, 159)
                 vertical-align top
                 margin-right 4px
+                &.icon-thumb_up
+                  color rgb(0, 160, 220)
+                &.icon-thumb_down
+                  color rgb(147, 153, 159)
               & > .rating-text
                 display inline-block
                 margin-top 6px
