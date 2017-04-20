@@ -24,21 +24,15 @@
       <section class="food-rating">
         <header class="rating-header">
           <p class="rating-header-text">商品评价</p>
-          <div class="rating-type-box">
-            <!--评价分类-->
-            <div class="rating-type">
-              <rate-type-card :ratingList="foodItem.ratings" @selectRatingType="selectRatingType"></rate-type-card>
-            </div>
-            <!--只看有内容的评价-->
-            <section class="select-only" @click="selectReadOnly()">
-              <span><i class="icon-check_circle"></i></span>
-              <span class="text">只看有内容的评价</span>
-            </section>
-          </div>
+          <select-tab :ratingList="ratingList" :ratingTypeDesc="ratingTypeDesc" :isOnly="isOnly"
+                      :selectType="selectType"
+                      @selectRatingType="selectRatingType"
+                      @isReadOnlySelect="isReadOnlySelect" v-if="ratingList.length>0"></select-tab>
+          <div v-else class="no-rating">暂无评价</div>
         </header>
         <article class="rating-content">
           <!--评价列表-->
-          <section v-for="rating in ratingList" class="rating-item">
+          <section v-for="rating in ratingList" v-show="showRatingList(selectType,isOnly,rating)" class="rating-item">
             <div class="rating-item-header">
               <span>{{rating.rateTime}}</span>
               <aside class="avator-box">
@@ -48,7 +42,7 @@
             </div>
             <!--评价内容-->
             <div class="rating-item-content">
-              <i class="icon" :class="iconType[rating.rateType]"></i>
+              <i class="icon"></i>
               <p class="rating-text" v-show="rating.text!==''">{{rating.text}}</p>
             </div>
           </section>
@@ -61,114 +55,81 @@
 <script type="text/ecmascript-6">
   import cardShop from 'components/cardShop/cardShop'
   import BScroll from 'better-scroll'
-  import RateTypeCard from 'components/rateTypeCard/rateTypeCard'
+  import selectTab from 'components/selectTab/selectTab'
+  const ALL = 2
+  const POSITIVE = 0
+  const NEGATIVE = 1
+  const ALLDesc = '全部'
+  const POSITIVEDesc = '推荐'
+  const NEGATIVEDesc = '吐槽'
   export default {
     data() {
       return {
         ratingList: [],
-        allRatingList: [],
-        goodRatingList: [],
-        badRatingList: [],
-        textRatingList: [],
-        iconType: [],
-        currentRatingList: [],
-        readOnly: false
+        selectType: ALL,
+        isOnly: false
       }
     },
     created () {
-      this.iconType = ['icon-thumb_up', 'icon-thumb_down']
     },
     props: ['foodItem'],
     components: {
       'cardShop': cardShop,
-      'rateTypeCard': RateTypeCard
+      'selectTab': selectTab
     },
-    computed: {},
+    computed: {
+      'ratingTypeDesc': function () {
+        return {
+          ALL: ALLDesc,
+          POSITIVE: POSITIVEDesc,
+          NEGATIVE: NEGATIVEDesc
+        }
+      }
+    },
     methods: {
       _initialScroll() {
         if (this.foodDetailScroll === undefined) {
           this.foodDetailScroll = new BScroll(this.$refs.foodDetailContent, {click: true})
+        } else {
+          this.foodDetailScroll.refresh()
         }
-        console.log(this.foodDetailScroll + 'initial')
       },
       _initialRatingList() {
-        let arr = []
-        let contentArr = []
-        let goodArr = []
-        let badArr = []
-        //        0为好评
-        const GOOD_TYPE = 0
-        //        差评
-        const BAD_TYPE = 1
-        if (this.foodItem.ratings) {
-          this.foodItem.ratings.forEach(function (item) {
-            if (item.text !== '') {
-              contentArr.push(item)
-            } else {
-              item.text = '系统默认评价'
-            }
-            arr.push(item)
-          })
-        }
-        this.allRatingList = arr.concat()
-        if (this.allRatingList) {
-          this.allRatingList.forEach(function (item) {
-//              好评
-            if (item.rateType === GOOD_TYPE) {
-              goodArr.push(item)
-            } else if (item.rateType === BAD_TYPE) {
-              badArr.push(item)
-            }
-          })
-        }
-        this.ratingList = arr.concat()
-        this.goodRatingList = goodArr.concat()
-        this.badRatingList = badArr.concat()
-        this.textRatingList = contentArr.concat()
+        this.ratingList = this.foodItem.ratings.concat()
       },
-      showDetailPage(item) {
-        console.log(item)
+//      showDetailPage(item) {
+//
+//      },
+      selectRatingType(type) {
+        switch (type) {
+          case ALLDesc:
+            this.selectType = ALL
+            break
+          case POSITIVEDesc:
+            this.selectType = POSITIVE
+            break
+          case NEGATIVEDesc:
+            this.selectType = NEGATIVE
+            break
+        }
+      },
+      showRatingList(selectType, isOnly, rating) {
+        if (isOnly && rating.text === '') {
+          return false
+        } else if (selectType !== 2 && selectType !== rating.rateType) {
+          return false
+        } else {
+          return true
+        }
+      },
+      isReadOnlySelect() {
+        this.isOnly = !this.isOnly
+        this.$nextTick(() => {
+          this.foodDetailScroll.refresh()
+        })
       },
       closeDetail() {
         this.$emit('closeDetail')
-      },
-      selectRatingType(type) {
-        const ALL_TYPE = '0'
-        const GOOD_TYPE = '1'
-        const BAD_TYPE = '2'
-        switch (type) {
-          case ALL_TYPE:
-            this.ratingList = this.allRatingList
-            break
-          case GOOD_TYPE:
-            this.ratingList = this.goodRatingList
-            break
-          case BAD_TYPE:
-            this.ratingList = this.badRatingList
-            break
-        }
-      },
-      selectReadOnly() {
-        let _this = this
-        if (_this.readOnly === false) {
-          _this.currentRatingList = _this.ratingList.concat()
-          _this.ratingList.forEach(function (item, index, arr) {
-            if (item.text === '系统默认评价') {
-              arr.splice(index, 1)
-              console.log(index)
-            }
-          })
-//          for (let i = 0; i < _this.ratingList.length; i++) {
-//            if (_this.ratingList[i].text === '系统默认评价') {
-//              _this.ratingList.splice(i, 1)
-//            }
-//          }
-          _this.readOnly = true
-          console.log(_this.currentRatingList === _this.ratingList)
-        } else {
-          _this.ratingList = _this.currentRatingList
-          _this.readOnly = false
-        }
       }
     }
   }
@@ -260,6 +221,10 @@
           padding 18px 18px 0 18px
           & > .rating-header-text
             font-size 14px
+          & > .no-rating
+            font-size 14px
+            padding 12px 0
+            color rgba(7, 17, 27, 0.5)
           & > .rating-type-box
             margin-top 6px
             & > .rating-type
