@@ -1,5 +1,5 @@
 <template>
-  <div class="card-wrapper">
+  <div class="card-wrapper" ref="cardShop">
     <transition name="fade">
       <span @click.stop="decreaseFoods($event)" class="decrease" v-if="foodsItem.checkNum>0"><i
         class="icon-remove_circle_outline inner"
@@ -23,6 +23,7 @@
     created () {
 //      console.log(typeof this.foodsItem)
       if (typeof this.foodsItem.checkNum === 'undefined' && typeof this.foodsItem === 'object') {
+//        console.log('cardShop:' + this.foodsItem.checkNum)
         Vue.set(this.foodsItem, 'checkNum', 0)
       }
     },

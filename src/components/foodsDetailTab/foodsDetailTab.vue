@@ -44,7 +44,7 @@
         Store.dispatch('changeBallPosition', addHook)
         Store.dispatch('addFoodsList', this.foodItem)
 //        this.$nextTick(function () {
-//          Store.dispatch('dropBalls')
+//          this.$emit('addToCar', $event)
 //        })
       },
       decreaseFoods: function () {

@@ -67,7 +67,7 @@
 <script type="text/ecmascript-6">
   import Store from '../../vuex/store'
   import cardShop from 'components/cardShop/cardShop'
-  import BetterScroll from 'better-scroll'
+  import BScroll from 'better-scroll'
   export default {
     data() {
       return {
@@ -128,7 +128,7 @@
         ball.getElementsByClassName('innerHook')[0].style.transform = `translate3d(${x}px,0,0)`
       },
       enterDrop: function (ball, done) {
-        console.log('enterDrop')
+//        console.log('enterDrop')
         /* eslint-disable no-unused-vars */
         let height = ball.offsetHeight
         this.$nextTick(function () {
@@ -138,7 +138,7 @@
           ball.getElementsByClassName('innerHook')[0].style.transform = 'translate3d(0,0,0)'
         })
       },
-      afterDrop (ball) {
+      afterDrop: function (ball) {
         console.log('afterDrop')
         let dropBalls = Store.getters.getDropBallList
         let dropBall = dropBalls.shift
@@ -153,25 +153,28 @@
         if (this.$refs.carDetail === undefined) {
           return
         }
+        this.detailShow = !this.detailShow
         this.$nextTick(() => {
           this._initialBetterScroll()
         })
-        this.detailShow = !this.detailShow
       },
       _initialBetterScroll: function () {
         if (!this.foodScroll) {
-          this.foodScroll = new BetterScroll(this.$refs.carDetail, {
+          this.foodScroll = new BScroll(this.$refs.carDetail, {
             scrollY: true,
             probeType: 3,
             click: true
           })
+        } else {
+          this.foodScroll.refresh()
         }
-        console.log(this.foodScroll)
+//        console.log(this.foodScroll)
       },
       decreaseFoods: function () {
         if (this.foodsList.length === 0) {
           this.detailShow = false
         }
+        this.foodScroll.refresh()
       }
     },
     components: {
@@ -324,6 +327,7 @@
             color rgb(0, 160, 220)
         & > .car-content
           max-height 241.5px
+          overflow: hidden
           & > .scroll-box
             padding 0 18px
             & > .car-item

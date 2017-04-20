@@ -16,7 +16,7 @@
             <span class="add-food" @click="addToCar(foodItem,$event)">加入购物车</span>
           </div>
           <div v-else>
-            <card-shop foodsItem="foodItem"></card-shop>
+            <card-shop :foodsItem="foodItem" ref="cardShop"></card-shop>
           </div>
         </section>
       </div>
@@ -34,7 +34,7 @@
           <!--评价列表-->
           <section v-for="rating in ratingList" v-show="showRatingList(selectType,isOnly,rating)" class="rating-item">
             <div class="rating-item-header">
-              <span>{{rating.rateTime}}</span>
+              <span>{{rating.rateTime |formatDateFilter(rating.rateTime)}}</span>
               <aside class="avator-box">
                 <span class="user-name">{{rating.username}}</span>
                 <img class="avator" :src="rating.avatar" width="12px" height="12px">
@@ -56,6 +56,8 @@
   import cardShop from 'components/cardShop/cardShop'
   import BScroll from 'better-scroll'
   import selectTab from 'components/selectTab/selectTab'
+  import {formateDate} from 'common/js/date'
+  import Store from '../../vuex/store'
   const ALL = 2
   const POSITIVE = 0
   const NEGATIVE = 1
@@ -84,6 +86,12 @@
           POSITIVE: POSITIVEDesc,
           NEGATIVE: NEGATIVEDesc
         }
+      }
+    },
+    filters: {
+      formatDateFilter(time) {
+        let date = new Date(time)
+        return formateDate(date)
       }
     },
     methods: {
@@ -127,6 +135,13 @@
         this.$nextTick(() => {
           this.foodDetailScroll.refresh()
         })
+      },
+      addToCar(foodItem, $event) {
+//        console.log(this)
+        Store.dispatch('changeBallPosition', $event.target)
+        Store.dispatch('dropBalls')
+        Store.dispatch('addFoodsList', foodItem)
+//        console.log(foodItem)
       },
       closeDetail() {
         this.$emit('closeDetail')
