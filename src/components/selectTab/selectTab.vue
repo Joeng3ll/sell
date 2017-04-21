@@ -27,6 +27,7 @@
         if (!$event._constructed) {
           return
         } else {
+          console.log(type)
           this.$emit('selectRatingType', type)
         }
       },

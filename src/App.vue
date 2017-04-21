@@ -48,7 +48,7 @@
       addFoods: function () {
         this.$nextTick(() => {
 //          console.log(this.$refs.footer.carContent)
-          this.$refs.footer._initialBetterScroll()
+//          this.$refs.footer._initialBetterScroll()
         })
       }
     }

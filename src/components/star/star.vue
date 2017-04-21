@@ -39,6 +39,7 @@
   @import "../../common/stylus/base.styl"
   @import "../../common/stylus/mixin.styl"
   .star
+    display: inline-block
     &.starType-24
       & > .star-item
         display inline-block

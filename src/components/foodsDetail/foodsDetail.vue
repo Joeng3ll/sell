@@ -42,7 +42,7 @@
             </div>
             <!--评价内容-->
             <div class="rating-item-content">
-              <i class="icon"></i>
+              <i class="icon" :class="iconType[rating.rateType]"></i>
               <p class="rating-text" v-show="rating.text!==''">{{rating.text}}</p>
             </div>
           </section>
@@ -69,10 +69,12 @@
       return {
         ratingList: [],
         selectType: ALL,
-        isOnly: false
+        isOnly: false,
+        iconType: []
       }
     },
     created () {
+      this.iconType = ['icon-thumb_up', 'icon-thumb_down']
     },
     props: ['foodItem'],
     components: {
