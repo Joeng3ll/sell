@@ -1,7 +1,9 @@
 <template>
   <div class="seller-wrapper" ref="sellerWrapper">
     <div class="scroll-box">
-      dd
+      <header>
+        dd
+      </header>
     </div>
   </div>
 </template>
@@ -21,11 +23,14 @@
           res = res.data
           this.seller = res.data
         }
+        this.$nextTick(() => {
+          this._initialScroll()
+        })
       })
     },
     methods: {
       _initialScroll() {
-        if (!this.sellerScroll && this.$refs.sellerWrapper) {
+        if (this.sellerScroll === undefined) {
           this.sellerScroll = new BScroll(this.$refs.sellerWrapper, {click: true})
         } else {
           this.sellerScroll.refresh()

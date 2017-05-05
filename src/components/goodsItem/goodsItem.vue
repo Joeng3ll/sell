@@ -32,6 +32,7 @@
     props: ['goodsList'],
     computed: {},
     created() {
+      console.log('goodsItem created')
     },
     methods: {
       addFoods(item) {

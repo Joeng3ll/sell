@@ -106,13 +106,19 @@
     },
     methods: {
       _initialScroll() {
-        var _this = this
+        console.log(this)
+//        var _this = this
         if (!this.menuScroll || !this.foodScroll) {
           this.menuScroll = new BetterScroll(this.$refs.menuWrapper, {scrollY: true, probeType: 3, click: true})
           this.foodScroll = new BetterScroll(this.$refs.foodsDetail, {scrollY: true, probeType: 3, click: true})
         }
-        this.foodScroll.on('scroll', function (pos) {
-          _this.currentY = Math.abs(Math.round(pos.y))
+//        this.foodScroll.on('scroll', function (pos) {
+//          console.log(this)
+//          _this.currentY = Math.abs(Math.round(pos.y))
+//        })
+        this.foodScroll.on('scroll', pos => {
+//          console.log(this)
+          this.currentY = Math.abs(Math.round(pos.y))
         })
 //        console.log(this.foodScroll)
       },
