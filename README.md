@@ -21,3 +21,54 @@ npm run build --report
 ```
 
 For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+
+## 项目结构
+
+<pre>
+.
+├── README.md
+├── build // vue-cli 自带的配置文件
+│   ├── build.js
+│   ├── check-versions.js
+│   ├── dev-client.js
+│   ├── dev-server.js
+│   ├── utils.js
+│   ├── webpack.base.conf.js
+│   ├── webpack.dev.conf.js
+│   └── webpack.prod.conf.js
+├── config  // vue-cli 自带的配置文件
+│   ├── dev.env.js
+│   ├── index.js
+│   └── prod.env.js
+├── index.html
+├── package.json
+├── src
+│   ├── App.vue
+│   ├── common
+│   │   ├── fonts  //icon-font字体文件
+│   │   ├── js  //公用js文件 暂时未添加
+│   │   └── stylus //共用样式文件
+│   ├── components
+│   │   ├── cardShop
+│   │   ├── foodsDetail
+│   │   ├── foodsDetailTab
+│   │   ├── footer
+│   │   ├── goods
+│   │   ├── goodsItem
+│   │   ├── header
+│   │   ├── loading
+│   │   ├── rating
+│   │   ├── selectTab
+│   │   ├── seller
+│   │   ├── shopCar
+│   │   ├── slideBar
+│   │   ├── star
+│   │   └── tab
+│   ├── main.js // 入口文件
+│   ├── router  // 路由
+│   │    └── index.js //路由信息
+│   └── vuex  //状态管理信息 更新中..
+│        └──  index.js  
+└──  static
+
+<code>
