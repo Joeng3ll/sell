@@ -39,6 +39,17 @@
           this.seller = res.data
         }
       })
+//      跨域 拒绝
+      this.$http.get('api/v2/book/1220562').then((res) => {
+        console.log(res)
+      }, (err) => {
+        console.log(err)
+      })
+      this.$http.get('https://api.douban.com/v2/book/1220562').then((res) => {
+        console.log(res)
+      }, (err) => {
+        console.log(err)
+      })
     },
     components: {
       'v-header': Header,

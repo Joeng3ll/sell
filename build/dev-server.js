@@ -72,7 +72,7 @@ routes.get('/rating', function (re1, res) {
     data: ratings
   });
 });
-//由路径/api获取到数据
+//由路径/api获取到数据 node.js express搭建的web服务器 模拟后台数据
 app.use("/api", routes)
 
 // webpack-dev-middleware使用compiler对象来对相应的文件进行编译和绑定
